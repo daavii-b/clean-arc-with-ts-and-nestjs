@@ -6,5 +6,5 @@ export interface IValidatorFields<PropsValidated> {
   errors: FieldsError;
   validatedData: PropsValidated;
 
-  validate: (data: any) => boolean;
+  validate: (data: any) => Promise<boolean>;
 }
