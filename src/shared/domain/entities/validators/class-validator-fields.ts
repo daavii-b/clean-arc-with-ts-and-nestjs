@@ -4,7 +4,6 @@ import { FieldsError, IValidatorFields } from './validator-fields.interface';
 export abstract class ClassValidatorFields<PropsValidated>
   implements IValidatorFields<PropsValidated>
 {
-  constructor(props: PropsValidated) {}
   errors: FieldsError = {};
   validatedData: PropsValidated = null;
 
