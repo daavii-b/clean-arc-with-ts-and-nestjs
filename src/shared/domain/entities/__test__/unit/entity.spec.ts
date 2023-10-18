@@ -1,5 +1,6 @@
 import { BaseEntity } from '@shared/domain/entities/entity';
 import { validate as validateUUID4 } from 'uuid';
+
 type StubProps = {
   prop1: string;
   prop2: string;

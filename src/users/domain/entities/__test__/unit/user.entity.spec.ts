@@ -37,4 +37,36 @@ describe('UserEntity Unit Test', () => {
     expect(sut.createdAt).toBeInstanceOf(Date);
     expect(sut.createdAt).toBe(userProps.createdAt);
   });
+
+  it('Setter of name field', () => {
+    const otherName = 'otherName';
+    sut['name'] = otherName;
+    expect(sut.name).toBe(otherName);
+  });
+  it('Setter of password field', () => {
+    const otherPass = 'otherPass';
+    sut['password'] = otherPass;
+    expect(sut.password).toBe(otherPass);
+  });
+  it('Setter of email field', () => {
+    const otherEmail = 'otherEmail';
+    sut['email'] = otherEmail;
+    expect(sut.email).toBe(otherEmail);
+  });
+
+  it('should update the name field', () => {
+    const newUserName = 'New User Name';
+    sut.updateName(newUserName);
+    expect(sut.name).toBe(newUserName);
+  });
+  it('should update the password field', () => {
+    const newUserPassword = 'newSome@password';
+    sut.updatePassword(newUserPassword);
+    expect(sut.password).toBe(newUserPassword);
+  });
+  it('should update the email field', () => {
+    const newUserEmail = 'newemail@email.com';
+    sut.updateEmail(newUserEmail);
+    expect(sut.email).toBe(newUserEmail);
+  });
 });
