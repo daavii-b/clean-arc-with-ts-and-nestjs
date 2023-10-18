@@ -12,6 +12,7 @@
     "outDir": "./dist",
     "baseUrl": ".",
     "paths": {
+      "@shared/*": ["src/shared/*"],
       "@domain/*": ["src/users/domain/*"],
       "@application/*": ["src/users/application/*"],
       "@infra/*": ["src/users/infrastructure/*"]
