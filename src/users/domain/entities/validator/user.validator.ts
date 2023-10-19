@@ -27,7 +27,7 @@ export class UserRules {
     minLength: 8,
     minLowercase: 2,
     minNumbers: 2,
-    minSymbols: 1,
+    minSymbols: 0,
     minUppercase: 1,
   })
   password: string;
