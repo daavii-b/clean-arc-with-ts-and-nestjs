@@ -61,4 +61,61 @@ describe('UserValidator Unit Tests', () => {
       expect(sut.validatedData.name).toBe(props.name);
     });
   });
+
+  describe('Email Field Tests', () => {
+    it('invalidations cases for Email field', async () => {
+      let isValid = await sut.validate(null as any);
+
+      expect(isValid).toBeFalsy();
+      expect(sut.errors['email']).toStrictEqual([
+        'email must be shorter than or equal to 255 characters',
+        'email must be an email',
+        'email must be a string',
+        'email should not be empty',
+      ]);
+
+      isValid = await sut.validate({ ...userDataBuilder({}), email: '' });
+
+      expect(isValid).toBeFalsy();
+      expect(sut.errors['email']).toStrictEqual([
+        'email must be an email',
+        'email should not be empty',
+      ]);
+
+      isValid = await sut.validate({
+        ...userDataBuilder({}),
+        email: 12 as any,
+      });
+
+      expect(isValid).toBeFalsy();
+      expect(sut.errors['email']).toStrictEqual([
+        'email must be shorter than or equal to 255 characters',
+        'email must be an email',
+        'email must be a string',
+      ]);
+
+      isValid = await sut.validate({
+        ...userDataBuilder({}),
+        email: 't'.repeat(256),
+      });
+
+      expect(isValid).toBeFalsy();
+      expect(sut.errors['email']).toStrictEqual([
+        'email must be shorter than or equal to 255 characters',
+        'email must be an email',
+      ]);
+    });
+
+    it('valid case for email field', async () => {
+      const props = userDataBuilder({});
+
+      const isValid = await sut.validate(props);
+
+      expect(isValid).toBeTruthy();
+      expect(sut.errors).toStrictEqual({});
+      expect(sut.validatedData).toStrictEqual(new UserRules(props));
+      expect(sut.validatedData.email).toBeDefined();
+      expect(sut.validatedData.email).toBe(props.email);
+    });
+  });
 });
