@@ -51,7 +51,7 @@ describe('UserValidator Unit Tests', () => {
 
     it('valid case for name field', async () => {
       const props = userDataBuilder({});
-      props['password'] = props.password.concat('2/stG');
+
       const isValid = await sut.validate(props);
 
       expect(isValid).toBeTruthy();
