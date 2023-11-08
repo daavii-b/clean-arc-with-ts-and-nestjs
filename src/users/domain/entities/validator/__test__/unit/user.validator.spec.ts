@@ -171,4 +171,37 @@ describe('UserValidator Unit Tests', () => {
       expect(sut.validatedData.password).toBe(props.password);
     });
   });
+
+  describe('CreatedAt Field Tests', () => {
+    it('invalidations cases for CreatedAt field', async () => {
+      const props = userDataBuilder({});
+
+      let isValid = await sut.validate({ ...props, createdAt: 10 as any });
+      expect(isValid).toBeFalsy();
+      expect(sut.errors['createdAt']).toStrictEqual([
+        'createdAt must be a Date instance',
+      ]);
+
+      isValid = await sut.validate({ ...props, createdAt: '2023' as any });
+      expect(isValid).toBeFalsy();
+      expect(sut.errors['createdAt']).toStrictEqual([
+        'createdAt must be a Date instance',
+      ]);
+    });
+
+    it('valid case for createdAt field', async () => {
+      const props = userDataBuilder({
+        createdAt: new Date(),
+      });
+
+      const isValid = await sut.validate(props);
+
+      expect(isValid).toBeTruthy();
+      expect(sut.errors).toStrictEqual({});
+      expect(sut.validatedData).toStrictEqual(new UserRules(props));
+      expect(sut.validatedData.createdAt).toBeDefined();
+      expect(sut.validatedData.createdAt).toBe(props.createdAt);
+      expect(sut.validatedData.createdAt).toBeInstanceOf(Date);
+    });
+  });
 });

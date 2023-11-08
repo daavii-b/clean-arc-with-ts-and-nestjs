@@ -33,7 +33,9 @@ export class UserRules {
   })
   password: string;
 
-  @IsDate({})
+  @IsDate({
+    always: true,
+  })
   @IsOptional()
   createdAt?: Date;
 
