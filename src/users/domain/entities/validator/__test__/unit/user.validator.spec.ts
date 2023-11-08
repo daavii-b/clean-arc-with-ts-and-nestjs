@@ -118,4 +118,57 @@ describe('UserValidator Unit Tests', () => {
       expect(sut.validatedData.email).toBe(props.email);
     });
   });
+  describe('Password Field Tests', () => {
+    it('invalidations cases for Password field', async () => {
+      let isValid = await sut.validate(null as any);
+
+      expect(isValid).toBeFalsy();
+      expect(sut.errors['password']).toStrictEqual([
+        'password is not strong enough',
+        'password must be a string',
+        'password should not be empty',
+      ]);
+
+      isValid = await sut.validate({ ...userDataBuilder({}), password: '' });
+
+      expect(isValid).toBeFalsy();
+      expect(sut.errors['password']).toStrictEqual([
+        'password is not strong enough',
+        'password should not be empty',
+      ]);
+
+      isValid = await sut.validate({
+        ...userDataBuilder({}),
+        password: 12 as any,
+      });
+
+      expect(isValid).toBeFalsy();
+      expect(sut.errors['password']).toStrictEqual([
+        'password is not strong enough',
+        'password must be a string',
+      ]);
+
+      isValid = await sut.validate({
+        ...userDataBuilder({}),
+        password: 'weakPass',
+      });
+
+      expect(isValid).toBeFalsy();
+      expect(sut.errors['password']).toStrictEqual([
+        'password is not strong enough',
+      ]);
+    });
+
+    it('valid case for Password field', async () => {
+      const props = userDataBuilder({});
+
+      const isValid = await sut.validate(props);
+
+      expect(isValid).toBeTruthy();
+      expect(sut.errors).toStrictEqual({});
+      expect(sut.validatedData).toStrictEqual(new UserRules(props));
+      expect(sut.validatedData.password).toBeDefined();
+      expect(sut.validatedData.password).toBe(props.password);
+    });
+  });
 });

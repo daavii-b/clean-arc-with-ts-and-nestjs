@@ -15,7 +15,7 @@ export const userDataBuilder = (props: UserPropsOptionals): UserProps => {
       props.password ??
       faker.internet.password({
         length: 15,
-        pattern: /[A-Z{3, }a-z{3, }0-9{3}(/\@#$%*_+=)]/,
+        pattern: /[A-Z{3, }a-z{3, }0-9{3, }(/\@#$%*_+=){3, }]/,
       }),
     createdAt: props.createdAt ?? new Date(),
   };
