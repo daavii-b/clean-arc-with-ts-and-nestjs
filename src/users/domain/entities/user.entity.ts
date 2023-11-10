@@ -1,4 +1,5 @@
 import { BaseEntity } from '@shared/domain/entities/entity';
+import { EntityValidatorError } from '@shared/domain/errors/validation-error';
 import { UserValidatorFactory } from './validator/user.validator';
 
 export type UserProps = {
@@ -70,6 +71,8 @@ export class UserEntity extends BaseEntity<UserProps> implements IUserEntity {
   static async validate({ props }: { props: UserProps }): Promise<void> {
     const validator = UserValidatorFactory.create();
 
-    await validator.validate(props);
+    const isValid = await validator.validate(props);
+
+    if (!isValid) throw new EntityValidatorError(validator.errors);
   }
 }
