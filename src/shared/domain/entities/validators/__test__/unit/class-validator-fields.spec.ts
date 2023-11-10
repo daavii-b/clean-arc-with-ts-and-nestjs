@@ -13,22 +13,18 @@ describe('ClassValidatorFields Unit Tests', () => {
     expect(sut.validatedData).toBeNull();
   });
 
-  it('should valiate with errors', async () => {
-    const spyValidate = jest.spyOn(libClassValidator, 'validate');
+  it('should validate with errors', () => {
+    const spyValidate = jest.spyOn(libClassValidator, 'validateSync');
 
-    spyValidate.mockReturnValue(
-      new Promise((resolve) => {
-        resolve([
-          {
-            property: 'field',
-            constraints: { isRequired: 'test error' },
-          },
-        ]);
-      }),
-    );
+    spyValidate.mockReturnValue([
+      {
+        property: 'field',
+        constraints: { isRequired: 'test error' },
+      },
+    ]);
     const sut = new StubClassValidatorFields();
 
-    expect(await sut.validate(null)).toBeFalsy();
+    expect(sut.validate(null)).toBeFalsy();
     expect(spyValidate).toHaveBeenCalled();
     expect(sut.validatedData).toBeNull();
     expect(sut.errors).toStrictEqual({
@@ -36,18 +32,14 @@ describe('ClassValidatorFields Unit Tests', () => {
     });
   });
 
-  it('should valiate withou errors', async () => {
-    const spyValidate = jest.spyOn(libClassValidator, 'validate');
+  it('should validate without errors', () => {
+    const spyValidate = jest.spyOn(libClassValidator, 'validateSync');
 
-    spyValidate.mockReturnValue(
-      new Promise((resolve) => {
-        resolve([]);
-      }),
-    );
+    spyValidate.mockReturnValue([]);
 
     const sut = new StubClassValidatorFields();
 
-    expect(await sut.validate({ field: 'value' })).toBeTruthy();
+    expect(sut.validate({ field: 'value' })).toBeTruthy();
     expect(spyValidate).toHaveBeenCalled();
     expect(sut.errors).toStrictEqual({});
     expect(sut.validatedData).toStrictEqual({ field: 'value' });

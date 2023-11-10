@@ -50,8 +50,8 @@ export class UserRules {
 }
 
 export class UserValidator extends ClassValidatorFields<UserRules> {
-  async validate(data: UserProps): Promise<boolean> {
-    return await super.validate(new UserRules(data ?? ({} as UserProps)));
+  validate(data: UserProps): boolean {
+    return super.validate(new UserRules(data ?? ({} as UserProps)));
   }
 }
 

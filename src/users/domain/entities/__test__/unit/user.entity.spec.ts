@@ -60,7 +60,7 @@ describe('UserEntity Unit Test', () => {
     expect(sut.name).toBe(newUserName);
   });
   it('should update the password field', () => {
-    const newUserPassword = 'newSome@password';
+    const newUserPassword = '/345Abs3geee';
     sut.updatePassword(newUserPassword);
     expect(sut.password).toBe(newUserPassword);
   });

@@ -17,16 +17,16 @@ class StubRules {
 }
 
 class StubClassValidatorFields extends ClassValidatorFields<StubRules> {
-  async validate(data: any): Promise<boolean> {
-    return await super.validate(new StubRules(data));
+  validate(data: any): boolean {
+    return super.validate(new StubRules(data));
   }
 }
 
 describe('ClassValidatorFields Integrations Tests', () => {
-  it('should validate with errors', async () => {
+  it('should validate with errors', () => {
     const validator = new StubClassValidatorFields();
 
-    expect(await validator.validate(null)).toBeFalsy();
+    expect(validator.validate(null)).toBeFalsy();
     expect(validator.errors).toStrictEqual({
       name: [
         'name should not be empty',
@@ -40,12 +40,10 @@ describe('ClassValidatorFields Integrations Tests', () => {
     });
   });
 
-  it('should validate with errors', async () => {
+  it('should validate with errors', () => {
     const validator = new StubClassValidatorFields();
 
-    expect(
-      await validator.validate({ name: 'test', price: 124 }),
-    ).toBeTruthy();
+    expect(validator.validate({ name: 'test', price: 124 })).toBeTruthy();
     expect(validator.errors).toStrictEqual({});
     expect(validator.validatedData).toStrictEqual(
       new StubRules({

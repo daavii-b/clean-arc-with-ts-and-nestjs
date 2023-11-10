@@ -1,4 +1,4 @@
-import { validate as validateFields } from 'class-validator';
+import { validateSync as validateFields } from 'class-validator';
 import { FieldsError, IValidatorFields } from './validator-fields.interface';
 
 export abstract class ClassValidatorFields<PropsValidated>
@@ -7,8 +7,8 @@ export abstract class ClassValidatorFields<PropsValidated>
   errors: FieldsError = {};
   validatedData: PropsValidated = null;
 
-  async validate(data: any): Promise<boolean> {
-    const errors = await validateFields(data);
+  validate(data: any): boolean {
+    const errors = validateFields(data);
 
     if (errors.length) {
       errors.forEach((error) => {

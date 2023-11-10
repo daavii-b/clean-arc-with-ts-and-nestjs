@@ -12,8 +12,8 @@ describe('UserValidator Unit Tests', () => {
     sut = UserValidatorFactory.create();
   });
   describe('Name Field Tests', () => {
-    it('invalidations cases for name field', async () => {
-      let isValid = await sut.validate(null as any);
+    it('invalidations cases for name field', () => {
+      let isValid = sut.validate(null as any);
 
       expect(isValid).toBeFalsy();
       expect(sut.errors['name']).toStrictEqual([
@@ -22,12 +22,12 @@ describe('UserValidator Unit Tests', () => {
         'name must be shorter than or equal to 255 characters',
       ]);
 
-      isValid = await sut.validate({ ...userDataBuilder({}), name: '' });
+      isValid = sut.validate({ ...userDataBuilder({}), name: '' });
 
       expect(isValid).toBeFalsy();
       expect(sut.errors['name']).toStrictEqual(['name should not be empty']);
 
-      isValid = await sut.validate({
+      isValid = sut.validate({
         ...userDataBuilder({}),
         name: 12 as any,
       });
@@ -38,7 +38,7 @@ describe('UserValidator Unit Tests', () => {
         'name must be shorter than or equal to 255 characters',
       ]);
 
-      isValid = await sut.validate({
+      isValid = sut.validate({
         ...userDataBuilder({}),
         name: 't'.repeat(256),
       });
@@ -49,10 +49,10 @@ describe('UserValidator Unit Tests', () => {
       ]);
     });
 
-    it('valid case for name field', async () => {
+    it('valid case for name field', () => {
       const props = userDataBuilder({});
 
-      const isValid = await sut.validate(props);
+      const isValid = sut.validate(props);
 
       expect(isValid).toBeTruthy();
       expect(sut.errors).toStrictEqual({});
@@ -63,8 +63,8 @@ describe('UserValidator Unit Tests', () => {
   });
 
   describe('Email Field Tests', () => {
-    it('invalidations cases for Email field', async () => {
-      let isValid = await sut.validate(null as any);
+    it('invalidations cases for Email field', () => {
+      let isValid = sut.validate(null as any);
 
       expect(isValid).toBeFalsy();
       expect(sut.errors['email']).toStrictEqual([
@@ -74,7 +74,7 @@ describe('UserValidator Unit Tests', () => {
         'email should not be empty',
       ]);
 
-      isValid = await sut.validate({ ...userDataBuilder({}), email: '' });
+      isValid = sut.validate({ ...userDataBuilder({}), email: '' });
 
       expect(isValid).toBeFalsy();
       expect(sut.errors['email']).toStrictEqual([
@@ -82,7 +82,7 @@ describe('UserValidator Unit Tests', () => {
         'email should not be empty',
       ]);
 
-      isValid = await sut.validate({
+      isValid = sut.validate({
         ...userDataBuilder({}),
         email: 12 as any,
       });
@@ -94,7 +94,7 @@ describe('UserValidator Unit Tests', () => {
         'email must be a string',
       ]);
 
-      isValid = await sut.validate({
+      isValid = sut.validate({
         ...userDataBuilder({}),
         email: 't'.repeat(256),
       });
@@ -106,10 +106,10 @@ describe('UserValidator Unit Tests', () => {
       ]);
     });
 
-    it('valid case for email field', async () => {
+    it('valid case for email field', () => {
       const props = userDataBuilder({});
 
-      const isValid = await sut.validate(props);
+      const isValid = sut.validate(props);
 
       expect(isValid).toBeTruthy();
       expect(sut.errors).toStrictEqual({});
@@ -119,8 +119,8 @@ describe('UserValidator Unit Tests', () => {
     });
   });
   describe('Password Field Tests', () => {
-    it('invalidations cases for Password field', async () => {
-      let isValid = await sut.validate(null as any);
+    it('invalidations cases for Password field', () => {
+      let isValid = sut.validate(null as any);
 
       expect(isValid).toBeFalsy();
       expect(sut.errors['password']).toStrictEqual([
@@ -129,7 +129,7 @@ describe('UserValidator Unit Tests', () => {
         'password should not be empty',
       ]);
 
-      isValid = await sut.validate({ ...userDataBuilder({}), password: '' });
+      isValid = sut.validate({ ...userDataBuilder({}), password: '' });
 
       expect(isValid).toBeFalsy();
       expect(sut.errors['password']).toStrictEqual([
@@ -137,7 +137,7 @@ describe('UserValidator Unit Tests', () => {
         'password should not be empty',
       ]);
 
-      isValid = await sut.validate({
+      isValid = sut.validate({
         ...userDataBuilder({}),
         password: 12 as any,
       });
@@ -148,7 +148,7 @@ describe('UserValidator Unit Tests', () => {
         'password must be a string',
       ]);
 
-      isValid = await sut.validate({
+      isValid = sut.validate({
         ...userDataBuilder({}),
         password: 'weakPass',
       });
@@ -159,10 +159,10 @@ describe('UserValidator Unit Tests', () => {
       ]);
     });
 
-    it('valid case for Password field', async () => {
+    it('valid case for Password field', () => {
       const props = userDataBuilder({});
 
-      const isValid = await sut.validate(props);
+      const isValid = sut.validate(props);
 
       expect(isValid).toBeTruthy();
       expect(sut.errors).toStrictEqual({});
@@ -173,28 +173,28 @@ describe('UserValidator Unit Tests', () => {
   });
 
   describe('CreatedAt Field Tests', () => {
-    it('invalidations cases for CreatedAt field', async () => {
+    it('invalidations cases for CreatedAt field', () => {
       const props = userDataBuilder({});
 
-      let isValid = await sut.validate({ ...props, createdAt: 10 as any });
+      let isValid = sut.validate({ ...props, createdAt: 10 as any });
       expect(isValid).toBeFalsy();
       expect(sut.errors['createdAt']).toStrictEqual([
         'createdAt must be a Date instance',
       ]);
 
-      isValid = await sut.validate({ ...props, createdAt: '2023' as any });
+      isValid = sut.validate({ ...props, createdAt: '2023' as any });
       expect(isValid).toBeFalsy();
       expect(sut.errors['createdAt']).toStrictEqual([
         'createdAt must be a Date instance',
       ]);
     });
 
-    it('valid case for createdAt field', async () => {
+    it('valid case for createdAt field', () => {
       const props = userDataBuilder({
         createdAt: new Date(),
       });
 
-      const isValid = await sut.validate(props);
+      const isValid = sut.validate(props);
 
       expect(isValid).toBeTruthy();
       expect(sut.errors).toStrictEqual({});

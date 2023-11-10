@@ -68,10 +68,10 @@ export class UserEntity extends BaseEntity<UserProps> implements IUserEntity {
     return this.props.createdAt;
   }
 
-  static async validate({ props }: { props: UserProps }): Promise<void> {
+  static validate({ props }: { props: UserProps }): void {
     const validator = UserValidatorFactory.create();
 
-    const isValid = await validator.validate(props);
+    const isValid = validator.validate(props);
 
     if (!isValid) throw new EntityValidatorError(validator.errors);
   }
