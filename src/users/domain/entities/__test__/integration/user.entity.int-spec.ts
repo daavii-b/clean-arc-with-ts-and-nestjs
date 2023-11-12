@@ -12,5 +12,32 @@ describe('UserEntity Integration Tests', () => {
 
       expect(() => new UserEntity(props)).toThrow(EntityValidatorError);
     });
+
+    it('should throw an error when creating an user with invalid email', () => {
+      const props: UserProps = {
+        ...userDataBuilder({}),
+        email: null as string,
+      };
+
+      expect(() => new UserEntity(props)).toThrow(EntityValidatorError);
+    });
+
+    it('should throw an error when creating an user with invalid pass', () => {
+      const props: UserProps = {
+        ...userDataBuilder({}),
+        password: null as string,
+      };
+
+      expect(() => new UserEntity(props)).toThrow(EntityValidatorError);
+    });
+
+    it('should throw an error when creating an user with invalid createdAt', () => {
+      const props: UserProps = {
+        ...userDataBuilder({}),
+        createdAt: '2023' as any,
+      };
+
+      expect(() => new UserEntity(props)).toThrow(EntityValidatorError);
+    });
   });
 });
