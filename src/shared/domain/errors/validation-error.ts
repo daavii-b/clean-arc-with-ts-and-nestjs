@@ -1,4 +1,4 @@
-import { FieldsError } from '../entities/validators/validator-fields.interface';
+import { FieldsError } from '../validators/validator-fields.interface';
 
 export class ValidationError extends Error {}
 

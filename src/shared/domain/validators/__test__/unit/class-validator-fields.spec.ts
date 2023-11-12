@@ -1,4 +1,4 @@
-import { ClassValidatorFields } from '@shared/domain/entities/validators/class-validator-fields';
+import { ClassValidatorFields } from '@shared/domain/validators/class-validator-fields';
 import * as libClassValidator from 'class-validator';
 
 class StubClassValidatorFields extends ClassValidatorFields<{
