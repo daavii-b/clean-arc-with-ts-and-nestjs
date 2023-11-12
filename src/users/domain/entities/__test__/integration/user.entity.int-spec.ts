@@ -39,5 +39,15 @@ describe('UserEntity Integration Tests', () => {
 
       expect(() => new UserEntity(props)).toThrow(EntityValidatorError);
     });
+
+    it('should create a valid user', () => {
+      expect.assertions(0);
+
+      const props: UserProps = {
+        ...userDataBuilder({}),
+      };
+
+      new UserEntity(props);
+    });
   });
 });
