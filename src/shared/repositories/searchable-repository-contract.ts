@@ -141,8 +141,9 @@ export class SearchResult<E extends BaseEntity, Filter = string> {
 
 export interface ISearchableRepository<
   E extends BaseEntity,
-  SearchInput,
-  SearchOutput,
+  Filter = string,
+  SearchInput = SearchParams,
+  SearchOutput = SearchResult<E, Filter>,
 > extends IRepository<E> {
-  search(props: SearchParams): Promise<SearchOutput>;
+  search(props: SearchInput): Promise<SearchOutput>;
 }
