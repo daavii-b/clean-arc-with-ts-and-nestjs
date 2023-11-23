@@ -1,4 +1,7 @@
-import { SearchParams } from '@shared/repositories/searchable-repository-contract';
+import {
+  SearchParams,
+  SearchResult,
+} from '@shared/repositories/searchable-repository-contract';
 
 describe('Searchable Repository unit tests', () => {
   describe('SearchParams tests', () => {
@@ -153,6 +156,76 @@ describe('Searchable Repository unit tests', () => {
           param.expected,
         );
       });
+    });
+  });
+
+  describe('SearchResults test', () => {
+    it('constructor test', () => {
+      let sut = new SearchResult({
+        items: ['test1', 'test2'] as any,
+        total: 20,
+        currentPage: 1,
+        perPage: 15,
+        sort: null,
+        sortDir: null,
+        filter: null,
+      });
+
+      expect(sut.toJSON()).toStrictEqual({
+        items: ['test1', 'test2'] as any,
+        total: 20,
+        currentPage: 1,
+        perPage: 15,
+        sort: null,
+        sortDir: null,
+        filter: null,
+        lastPage: 2,
+      });
+
+      sut = new SearchResult({
+        items: ['test1', 'test2'] as any,
+        total: 20,
+        currentPage: 1,
+        perPage: 15,
+        sort: 'field',
+        sortDir: 'desc',
+        filter: 'test1',
+      });
+
+      expect(sut.toJSON()).toStrictEqual({
+        items: ['test1', 'test2'] as any,
+        total: 20,
+        currentPage: 1,
+        perPage: 15,
+        sort: 'field',
+        sortDir: 'desc',
+        filter: 'test1',
+        lastPage: 2,
+      });
+
+      sut = new SearchResult({
+        items: ['test1', 'test2'] as any,
+        total: 200,
+        currentPage: 1,
+        perPage: 10,
+        sort: 'field',
+        sortDir: 'desc',
+        filter: 'test1',
+      });
+
+      expect(sut.lastPage).toBe(20);
+
+      sut = new SearchResult({
+        items: ['test1', 'test2'] as any,
+        total: 200,
+        currentPage: 1,
+        perPage: 20,
+        sort: 'field',
+        sortDir: 'desc',
+        filter: 'test1',
+      });
+
+      expect(sut.lastPage).toBe(10);
     });
   });
 });
