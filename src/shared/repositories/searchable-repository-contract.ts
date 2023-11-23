@@ -94,11 +94,11 @@ export class SearchParams {
   }
 
   get filter() {
-    return this.filter;
+    return this._filter;
   }
 
   private set filter(value: string | null) {
-    this._filter = value ?? false ? `${value}` : null;
+    this._filter = value?.toString() ?? false ? `${value}` : null;
   }
 }
 
