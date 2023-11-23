@@ -67,7 +67,7 @@ export class SearchParams {
   }
 
   private set sort(value: string | null) {
-    this._sort = value ?? false ? `${value}` : null;
+    this._sort = value?.toString() ?? false ? `${value}` : null;
   }
 
   get sortDir() {
@@ -88,7 +88,7 @@ export class SearchParams {
   }
 
   private set filter(value: string | null) {
-    this._sort = value ?? false ? `${value}` : null;
+    this._filter = value ?? false ? `${value}` : null;
   }
 }
 
