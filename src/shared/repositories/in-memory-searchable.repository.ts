@@ -55,10 +55,9 @@ export abstract class InMemorySearchableRepository<E extends BaseEntity>
       if (a.props[sort] < b.props[sort]) {
         return sortDir === 'asc' ? -1 : 1;
       }
-      if (a.props[sort] < b.props[sort]) {
+      if (a.props[sort] > b.props[sort]) {
         return sortDir === 'asc' ? 1 : -1;
       }
-
       return 0;
     });
   }
