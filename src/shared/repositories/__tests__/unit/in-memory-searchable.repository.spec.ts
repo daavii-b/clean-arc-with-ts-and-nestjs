@@ -179,6 +179,8 @@ describe('InMemorySearchableRepository unit test', () => {
         }),
       );
 
+      expect(params).toBeInstanceOf(SearchResult);
+
       expect(params).toStrictEqual(
         new SearchResult({
           items: [items[0], items[3]],
@@ -208,6 +210,142 @@ describe('InMemorySearchableRepository unit test', () => {
           sort: null,
           sortDir: null,
           currentPage: 2,
+        }),
+      );
+    });
+
+    it('should apply pagination and sort', async () => {
+      const items = [
+        new StubEntity({ name: 'd', price: 1.2 }),
+        new StubEntity({ name: 'c', price: 1.2 }),
+        new StubEntity({ name: 'a', price: 1.2 }),
+        new StubEntity({ name: 'e', price: 1.2 }),
+        new StubEntity({ name: 'f', price: 1.2 }),
+        new StubEntity({ name: 'b', price: 1.2 }),
+      ];
+
+      sut.items = items;
+
+      let params = await sut.search(
+        new SearchParams({
+          page: 1,
+          perPage: 2,
+          sort: 'name',
+        }),
+      );
+
+      expect(params).toStrictEqual(
+        new SearchResult({
+          items: [items[4], items[3]],
+          total: items.length,
+          currentPage: 1,
+          perPage: 2,
+          sort: 'name',
+          sortDir: 'desc',
+          filter: null,
+        }),
+      );
+
+      params = await sut.search(
+        new SearchParams({
+          page: 2,
+          perPage: 2,
+          sort: 'name',
+        }),
+      );
+
+      expect(params).toStrictEqual(
+        new SearchResult({
+          items: [items[0], items[1]],
+          total: items.length,
+          currentPage: 2,
+          perPage: 2,
+          sort: 'name',
+          sortDir: 'desc',
+          filter: null,
+        }),
+      );
+
+      params = await sut.search(
+        new SearchParams({
+          page: 3,
+          perPage: 2,
+          sort: 'name',
+        }),
+      );
+
+      expect(params).toStrictEqual(
+        new SearchResult({
+          items: [items[5], items[2]],
+          total: items.length,
+          currentPage: 3,
+          perPage: 2,
+          sort: 'name',
+          sortDir: 'desc',
+          filter: null,
+        }),
+      );
+
+      params = await sut.search(
+        new SearchParams({
+          page: 1,
+          perPage: 2,
+          sort: 'name',
+          sortDir: 'asc',
+        }),
+      );
+
+      expect(params).toStrictEqual(
+        new SearchResult({
+          items: [items[2], items[5]],
+          total: items.length,
+          currentPage: 1,
+          perPage: 2,
+          sort: 'name',
+          sortDir: 'asc',
+          filter: null,
+        }),
+      );
+
+      params = await sut.search(
+        new SearchParams({
+          page: 2,
+          perPage: 2,
+          sort: 'name',
+          sortDir: 'asc',
+        }),
+      );
+
+      expect(params).toStrictEqual(
+        new SearchResult({
+          items: [items[1], items[0]],
+          total: items.length,
+          currentPage: 2,
+          perPage: 2,
+          sort: 'name',
+          sortDir: 'asc',
+          filter: null,
+        }),
+      );
+
+      params = await sut.search(
+        new SearchParams({
+          page: 3,
+          perPage: 2,
+          sort: 'name',
+          sortDir: 'asc',
+        }),
+      );
+
+      expect(params).toStrictEqual(
+        new SearchResult({
+          items: [items[3], items[4]],
+          total: items.length,
+          currentPage: 3,
+          perPage: 2,
+          sort: 'name',
+          sortDir: 'asc',
+          filter: null,
         }),
       );
     });
