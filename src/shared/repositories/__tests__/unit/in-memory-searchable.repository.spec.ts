@@ -1,5 +1,9 @@
 import { BaseEntity } from '@shared/domain/entities/entity';
 import { InMemorySearchableRepository } from '@shared/repositories/in-memory-searchable.repository';
+import {
+  SearchParams,
+  SearchResult,
+} from '@shared/repositories/searchable-repository-contract';
 
 type StubEntityProps = {
   name: string;
@@ -133,5 +137,79 @@ describe('InMemorySearchableRepository unit test', () => {
       expect(itemsPaginated).toStrictEqual([]);
     });
   });
-  describe('search method', () => {});
+  describe('search method', () => {
+    it('should apply only pagination when other param are null', async () => {
+      const entity = new StubEntity({ name: 'TestEntity', price: 1.2 });
+      const items = Array(16).fill(entity);
+
+      sut.items = items;
+
+      const params = await sut.search(new SearchParams());
+
+      expect(params).toStrictEqual(
+        new SearchResult({
+          items: Array(15).fill(entity),
+          total: 16,
+          filter: null,
+          perPage: 15,
+          sort: null,
+          sortDir: null,
+          currentPage: 1,
+        }),
+      );
+    });
+
+    it('should apply pagination and filter', async () => {
+      const items = [
+        new StubEntity({ name: 'test', price: 1.2 }),
+        new StubEntity({ name: 'c', price: 1.2 }),
+        new StubEntity({ name: 'a', price: 1.2 }),
+        new StubEntity({ name: 'TEST', price: 1.2 }),
+        new StubEntity({ name: 'f', price: 1.2 }),
+        new StubEntity({ name: 'teST', price: 1.2 }),
+      ];
+
+      sut.items = items;
+
+      let params = await sut.search(
+        new SearchParams({
+          page: 1,
+          perPage: 2,
+          filter: 'test',
+        }),
+      );
+
+      expect(params).toStrictEqual(
+        new SearchResult({
+          items: [items[0], items[3]],
+          total: 3,
+          filter: 'test',
+          perPage: 2,
+          sort: null,
+          sortDir: null,
+          currentPage: 1,
+        }),
+      );
+
+      params = await sut.search(
+        new SearchParams({
+          page: 2,
+          perPage: 2,
+          filter: 'test',
+        }),
+      );
+
+      expect(params).toStrictEqual(
+        new SearchResult({
+          items: [items[5]],
+          total: 3,
+          filter: 'test',
+          perPage: 2,
+          sort: null,
+          sortDir: null,
+          currentPage: 2,
+        }),
+      );
+    });
+  });
 });
