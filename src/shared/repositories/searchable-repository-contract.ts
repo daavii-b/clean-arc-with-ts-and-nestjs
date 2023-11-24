@@ -21,19 +21,19 @@ export type SearchProps<Filter = string> = {
   filter?: Filter | null;
 };
 
-export class SearchParams {
+export class SearchParams<Filter = string> {
   protected _page?: number;
   protected _perPage = 15;
   protected _sort?: string | null;
   protected _sortDir?: SortDirection | null;
-  protected _filter?: string | null;
+  protected _filter?: Filter | null;
 
   constructor(props: SearchProps = {}) {
     this.page = props.page;
     this.perPage = props.perPage;
     this.sort = props.sort;
     this.sortDir = props.sortDir;
-    this.filter = props.filter;
+    this.filter = props.filter as Filter | null;
   }
 
   get page() {
@@ -93,12 +93,14 @@ export class SearchParams {
     this._sortDir = dir !== 'asc' && dir !== 'desc' ? 'desc' : dir;
   }
 
-  get filter() {
+  get filter(): Filter | null {
     return this._filter;
   }
 
-  private set filter(value: string | null) {
-    this._filter = value?.toString() ?? false ? `${value}` : null;
+  private set filter(value: Filter | null) {
+    this._filter = (
+      value?.toString() ?? false ? `${value}` : null
+    ) as Filter | null;
   }
 }
 

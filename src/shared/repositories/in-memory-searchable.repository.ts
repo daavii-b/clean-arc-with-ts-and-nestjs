@@ -8,7 +8,7 @@ import {
 
 export abstract class InMemorySearchableRepository<E extends BaseEntity>
   extends InMemoryRepository<E>
-  implements ISearchableRepository<E, string, SearchParams, SearchResult<E>>
+  implements ISearchableRepository<E, , SearchParams, SearchResult<E>>
 {
   sortableFields: string[];
 
