@@ -1,19 +1,37 @@
 import { UserEntity } from '@domain/entities/user.entity';
-import { IUserRepository } from '@domain/repositories/user.repository';
+import { NUserRepository } from '@domain/repositories/user.repository';
 import { ConflictError } from '@shared/domain/errors/conflict-error';
 import { NotFoundError } from '@shared/domain/errors/not-found-error';
 import { InMemorySearchableRepository } from '@shared/repositories/in-memory-searchable.repository';
+import { SortDirection } from '@shared/repositories/searchable-repository-contract';
 
 export class UserInMemoryRepository
   extends InMemorySearchableRepository<UserEntity>
-  implements IUserRepository
+  implements NUserRepository.IRepository
 {
-  protected applyFilter(
+  sortableFields: string[] = ['name', 'createdAt'];
+
+  protected async applyFilter(
     items: UserEntity[],
-    filter: string,
+    filter: NUserRepository.Filter,
   ): Promise<UserEntity[]> {
-    throw new Error('Method not implemented.');
+    if (!filter) return items;
+
+    return items.filter((item) =>
+      item.props.name.toLowerCase().includes(filter.toLowerCase()),
+    );
   }
+
+  protected async applySort(
+    items: UserEntity[],
+    sort: string | null,
+    sortDir: SortDirection | null,
+  ): Promise<UserEntity[]> {
+    return !sort
+      ? super.applySort(items, 'createdAt', sortDir)
+      : super.applySort(items, sort, sortDir);
+  }
+
   async findByEmail(email: string): Promise<UserEntity> {
     const entity = this.items.find((item) => item.email === email);
 
@@ -23,6 +41,7 @@ export class UserInMemoryRepository
 
     return entity;
   }
+
   async emailExists(email: string): Promise<void> {
     const entity = this.items.find((item) => item.email === email);
 
