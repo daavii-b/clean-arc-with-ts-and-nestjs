@@ -349,5 +349,66 @@ describe('InMemorySearchableRepository unit test', () => {
         }),
       );
     });
+
+    it('should apply pagination, sort and filter', async () => {
+      const items = [
+        new StubEntity({ name: 'test', price: 1.2 }),
+        new StubEntity({ name: 'c', price: 1.2 }),
+        new StubEntity({ name: 'a', price: 1.2 }),
+        new StubEntity({ name: 'TEST', price: 1.2 }),
+        new StubEntity({ name: 'f', price: 1.2 }),
+        new StubEntity({ name: 'teST', price: 1.2 }),
+      ];
+
+      sut.items = items;
+
+      let params = await sut.search(
+        new SearchParams({
+          page: 1,
+          perPage: 2,
+          filter: 'test',
+          sort: 'name',
+          sortDir: 'asc',
+        }),
+      );
+
+      expect(params).toBeInstanceOf(SearchResult);
+
+      expect(params).toStrictEqual(
+        new SearchResult({
+          items: [items[3], items[5]],
+          total: 3,
+          filter: 'test',
+          perPage: 2,
+          sort: 'name',
+          sortDir: 'asc',
+          currentPage: 1,
+        }),
+      );
+
+      params = await sut.search(
+        new SearchParams({
+          page: 2,
+          perPage: 2,
+          filter: 'test',
+          sort: 'name',
+          sortDir: 'asc',
+        }),
+      );
+
+      expect(params).toBeInstanceOf(SearchResult);
+
+      expect(params).toStrictEqual(
+        new SearchResult({
+          items: [items[0]],
+          total: 3,
+          filter: 'test',
+          perPage: 2,
+          sort: 'name',
+          sortDir: 'asc',
+          currentPage: 2,
+        }),
+      );
+    });
   });
 });
