@@ -1,4 +1,4 @@
-import { userDataBuilder } from '@domain/testing/helpers/user-data-builder';
+import { userDataBuilder } from '@users/domain/testing/helpers/user-data-builder';
 import {
   UserRules,
   UserValidator,

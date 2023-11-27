@@ -1,9 +1,9 @@
-import { IUserOutputDTO } from '@application/dtos/user-output';
-import { UserEntity } from '@domain/entities/user.entity';
-import { NUserRepository } from '@domain/repositories/user.repository';
 import { BadRequestError } from '@shared/application/errors/bad-request-error';
 import { IHashProvider } from '@shared/application/providers/hash-provider';
 import { IUseCase } from '@shared/application/usecases/use-case';
+import { IUserOutputDTO } from '@users/application/dtos/user-output';
+import { UserEntity } from '@users/domain/entities/user.entity';
+import { NUserRepository } from '@users/domain/repositories/user.repository';
 
 export namespace SignUpUseCase {
   export interface ISignUpInput {

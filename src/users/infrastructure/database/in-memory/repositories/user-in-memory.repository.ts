@@ -1,9 +1,9 @@
-import { UserEntity } from '@domain/entities/user.entity';
-import { NUserRepository } from '@domain/repositories/user.repository';
 import { ConflictError } from '@shared/domain/errors/conflict-error';
 import { NotFoundError } from '@shared/domain/errors/not-found-error';
 import { InMemorySearchableRepository } from '@shared/repositories/in-memory-searchable.repository';
 import { SortDirection } from '@shared/repositories/searchable-repository-contract';
+import { UserEntity } from '@users/domain/entities/user.entity';
+import { NUserRepository } from '@users/domain/repositories/user.repository';
 
 export class UserInMemoryRepository
   extends InMemorySearchableRepository<UserEntity>

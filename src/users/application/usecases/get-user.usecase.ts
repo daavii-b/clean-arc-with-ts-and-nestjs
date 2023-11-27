@@ -1,6 +1,6 @@
-import { IUserOutputDTO } from '@application/dtos/user-output';
-import { NUserRepository } from '@domain/repositories/user.repository';
 import { IUseCase } from '@shared/application/usecases/use-case';
+import { IUserOutputDTO } from '@users/application/dtos/user-output';
+import { NUserRepository } from '@users/domain/repositories/user.repository';
 
 export namespace GetUserUseCase {
   export interface IGetUserInput {

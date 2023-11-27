@@ -12,10 +12,18 @@
     "outDir": "./dist",
     "baseUrl": ".",
     "paths": {
-      "@shared/*": ["src/shared/*"],
-      "@domain/*": ["src/users/domain/*"],
-      "@application/*": ["src/users/application/*"],
-      "@infra/*": ["src/users/infrastructure/*"]
+      "@shared/*": [
+        "src/shared/*"
+      ],
+      "@users/domain/*": [
+        "src/users/domain/*"
+      ],
+      "@users/application/*": [
+        "src/users/application/*"
+      ],
+      "@users/infra/*": [
+        "src/users/infrastructure/*"
+      ]
     },
     "incremental": true,
     "skipLibCheck": true,

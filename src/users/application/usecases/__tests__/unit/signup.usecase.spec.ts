@@ -1,10 +1,10 @@
-import { SignUpUseCase } from '@application/usecases/signup.usecase';
-import { userDataBuilder } from '@domain/testing/helpers/user-data-builder';
-import { UserInMemoryRepository } from '@infra/database/in-memory/repositories/user-in-memory.repository';
-import { BcryptHashProvider } from '@infra/providers/hash-provider/bcrypt-hash.provider';
 import { BadRequestError } from '@shared/application/errors/bad-request-error';
 import { IHashProvider } from '@shared/application/providers/hash-provider';
 import { ConflictError } from '@shared/domain/errors/conflict-error';
+import { SignUpUseCase } from '@users/application/usecases/signup.usecase';
+import { userDataBuilder } from '@users/domain/testing/helpers/user-data-builder';
+import { UserInMemoryRepository } from '@users/infra/database/in-memory/repositories/user-in-memory.repository';
+import { BcryptHashProvider } from '@users/infra/providers/hash-provider/bcrypt-hash.provider';
 
 describe('SignUpUseCase unit tests', () => {
   let sut: SignUpUseCase.UseCase;

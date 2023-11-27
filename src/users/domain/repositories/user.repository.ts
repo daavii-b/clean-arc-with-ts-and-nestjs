@@ -1,9 +1,9 @@
-import { UserEntity } from '@domain/entities/user.entity';
 import {
   SearchParams as DefaultSearchParams,
   SearchResult as DefaultSearchResult,
   ISearchableRepository,
 } from '@shared/repositories/searchable-repository-contract';
+import { UserEntity } from '@users/domain/entities/user.entity';
 export namespace NUserRepository {
   export type Filter = string;
 

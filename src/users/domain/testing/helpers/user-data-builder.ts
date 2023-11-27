@@ -1,5 +1,5 @@
-import { UserProps } from '@domain/entities/user.entity';
 import { faker } from '@faker-js/faker';
+import { UserProps } from '@users/domain/entities/user.entity';
 export type UserPropsOptionals = {
   name?: string;
   email?: string;

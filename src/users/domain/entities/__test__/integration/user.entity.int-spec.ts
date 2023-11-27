@@ -1,6 +1,6 @@
-import { UserEntity, UserProps } from '@domain/entities/user.entity';
-import { userDataBuilder } from '@domain/testing/helpers/user-data-builder';
 import { EntityValidatorError } from '@shared/domain/errors/validation-error';
+import { UserEntity, UserProps } from '@users/domain/entities/user.entity';
+import { userDataBuilder } from '@users/domain/testing/helpers/user-data-builder';
 
 describe('UserEntity Integration Tests', () => {
   describe('Constructor Method', () => {
