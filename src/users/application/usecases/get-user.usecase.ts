@@ -1,3 +1,4 @@
+import { IUserOutputDTO } from '@application/dtos/user-output';
 import { NUserRepository } from '@domain/repositories/user.repository';
 
 export namespace GetUserUseCase {
@@ -5,13 +6,7 @@ export namespace GetUserUseCase {
     id: string;
   }
 
-  export interface IGetUserOutput {
-    id: string;
-    name: string;
-    email: string;
-    password: string;
-    createdAt: Date;
-  }
+  export interface IGetUserOutput extends IUserOutputDTO {}
 
   export class UseCase {
     constructor(

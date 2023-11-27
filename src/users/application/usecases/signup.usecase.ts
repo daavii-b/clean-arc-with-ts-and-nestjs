@@ -1,3 +1,4 @@
+import { IUserOutputDTO } from '@application/dtos/user-output';
 import { BadRequestError } from '@application/errors/bad-request-error';
 import { UserEntity } from '@domain/entities/user.entity';
 import { NUserRepository } from '@domain/repositories/user.repository';
@@ -10,13 +11,7 @@ export namespace SignUpUseCase {
     password: string;
   }
 
-  export interface ISignUpOutput {
-    id: string;
-    name: string;
-    email: string;
-    password: string;
-    createdAt: Date;
-  }
+  export interface ISignUpOutput extends IUserOutputDTO {}
 
   export class UseCase {
     constructor(
