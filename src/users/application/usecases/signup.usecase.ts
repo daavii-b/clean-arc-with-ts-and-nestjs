@@ -3,6 +3,7 @@ import { BadRequestError } from '@application/errors/bad-request-error';
 import { UserEntity } from '@domain/entities/user.entity';
 import { NUserRepository } from '@domain/repositories/user.repository';
 import { IHashProvider } from '@shared/application/providers/hash-provider';
+import { IUseCase } from '@shared/application/usecases/use-case';
 
 export namespace SignUpUseCase {
   export interface ISignUpInput {
@@ -13,7 +14,7 @@ export namespace SignUpUseCase {
 
   export interface ISignUpOutput extends IUserOutputDTO {}
 
-  export class UseCase {
+  export class UseCase implements IUseCase<ISignUpInput, ISignUpOutput> {
     constructor(
       private readonly userRepository: NUserRepository.IRepository,
       private readonly hashProvider: IHashProvider,

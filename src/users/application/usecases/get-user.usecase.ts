@@ -1,5 +1,6 @@
 import { IUserOutputDTO } from '@application/dtos/user-output';
 import { NUserRepository } from '@domain/repositories/user.repository';
+import { IUseCase } from '@shared/application/usecases/use-case';
 
 export namespace GetUserUseCase {
   export interface IGetUserInput {
@@ -8,7 +9,7 @@ export namespace GetUserUseCase {
 
   export interface IGetUserOutput extends IUserOutputDTO {}
 
-  export class UseCase {
+  export class UseCase implements IUseCase<IGetUserInput, IGetUserOutput> {
     constructor(
       private readonly userRepository: NUserRepository.IRepository,
     ) {}
