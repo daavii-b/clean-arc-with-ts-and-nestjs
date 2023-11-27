@@ -1,7 +1,7 @@
 import { IUserOutputDTO } from '@application/dtos/user-output';
-import { BadRequestError } from '@application/errors/bad-request-error';
 import { UserEntity } from '@domain/entities/user.entity';
 import { NUserRepository } from '@domain/repositories/user.repository';
+import { BadRequestError } from '@shared/application/errors/bad-request-error';
 import { IHashProvider } from '@shared/application/providers/hash-provider';
 import { IUseCase } from '@shared/application/usecases/use-case';
 

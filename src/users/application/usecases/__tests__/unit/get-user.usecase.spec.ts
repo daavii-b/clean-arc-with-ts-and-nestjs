@@ -14,9 +14,9 @@ describe('GetUserUseCase unit tests', () => {
   });
 
   it('should throw an error if not find an user', async () => {
-    await expect(
-      async () => await sut.execute({ id: 'fakeId' }),
-    ).rejects.toBeInstanceOf(new NotFoundError('Entity not found'));
+    await expect(async () => {
+      await sut.execute({ id: 'fakeId' });
+    }).rejects.toThrow(new NotFoundError('Entity not found'));
   });
 
   it('should be able to find an user by id', async () => {
