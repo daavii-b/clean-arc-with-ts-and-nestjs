@@ -6,7 +6,7 @@ import { BcryptHashProvider } from '@infra/providers/hash-provider/bcrypt-hash.p
 import { IHashProvider } from '@shared/application/providers/hash-provider';
 import { ConflictError } from '@shared/domain/errors/conflict-error';
 
-describe('SignUp UseCase unit tests', () => {
+describe('SignUpUseCase unit tests', () => {
   let sut: SignUpUseCase.UseCase;
   let repository: UserInMemoryRepository;
   let hashProvider: IHashProvider;
