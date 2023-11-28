@@ -1,5 +1,8 @@
 import { IUseCase } from '@shared/application/usecases/use-case';
-import { IUserOutputDTO } from '@users/application/dtos/user-output';
+import {
+  IUserOutputDTO,
+  UserOutputMapper,
+} from '@users/application/dtos/user-output';
 import { NUserRepository } from '@users/domain/repositories/user.repository';
 
 export namespace GetUserUseCase {
@@ -19,7 +22,7 @@ export namespace GetUserUseCase {
 
       const entity = await this.userRepository.findById(id);
 
-      return entity.toJSON();
+      return UserOutputMapper.toOutput(entity);
     }
   }
 }
