@@ -26,7 +26,7 @@ describe('UpdateUserUseCase unit tests', () => {
     }).rejects.toThrow(new BadRequestError('Name must be provided'));
   });
 
-  it('should be able to find an user by id', async () => {
+  it('should be able to update the user name', async () => {
     const spyUpdate = jest.spyOn(repository, 'update');
     const items = [new UserEntity({ ...userDataBuilder({}) })];
     repository.items = items;
