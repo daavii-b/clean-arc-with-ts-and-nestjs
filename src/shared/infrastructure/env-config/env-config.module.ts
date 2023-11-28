@@ -11,6 +11,8 @@ export class EnvConfigModule extends ConfigModule {
     return super.forRoot(
       (options = {
         ...options,
+        ignoreEnvFile: false,
+        isGlobal: true,
         envFilePath: [
           join(__dirname, `../../../../.env.${process.env.NODE_ENV}`),
         ],
