@@ -106,4 +106,22 @@ describe('UsersControllers unit tests', () => {
       ...input,
     });
   });
+
+  it('should delete an user password', async () => {
+    const output = undefined;
+
+    const mockDeleteUserUseCase = {
+      execute: jest.fn().mockReturnValue(Promise.resolve(output)),
+    };
+
+    sut['deleteUserUseCase'] = mockDeleteUserUseCase as any;
+
+    const result = await sut.remove(id);
+
+    expect(output).toStrictEqual(result);
+    expect(result).toBeUndefined();
+    expect(mockDeleteUserUseCase.execute).toHaveBeenCalledWith({
+      id,
+    });
+  });
 });
