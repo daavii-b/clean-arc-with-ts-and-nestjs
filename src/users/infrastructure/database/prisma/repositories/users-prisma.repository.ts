@@ -90,8 +90,14 @@ export class UserPrismaRepository implements NUserRepository.IRepository {
     });
   }
 
-  delete(id: string): Promise<void> {
-    throw new Error('Method not implemented.');
+  async delete(id: string): Promise<void> {
+    await this._get(id);
+
+    await this.prismaService.user.delete({
+      where: {
+        id,
+      },
+    });
   }
 
   protected async _get(id: string): Promise<UserEntity> {
