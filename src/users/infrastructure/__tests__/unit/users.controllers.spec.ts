@@ -1,4 +1,5 @@
 import { IUserOutputDTO } from '@users/application/dtos/user-output';
+import { SignInUseCase } from '@users/application/usecases/signin.usecase';
 import { SignUpUseCase } from '@users/application/usecases/signup.usecase';
 import { UsersController } from '@users/infra/users.controller';
 
@@ -40,5 +41,23 @@ describe('UsersControllers unit tests', () => {
 
     expect(output).toMatchObject(result);
     expect(mockSignUpUseCase.execute).toHaveBeenCalledWith(input);
+  });
+
+  it('should authenticate an user', async () => {
+    const output: SignInUseCase.ISignInInput = userOutput;
+    const input: SignInUseCase.ISignInInput = {
+      email: 'test@example.com',
+      password: '//23FFGtest',
+    };
+    const mockSignInUseCase = {
+      execute: jest.fn().mockReturnValue(Promise.resolve(output)),
+    };
+
+    sut['signInUseCase'] = mockSignInUseCase as any;
+
+    const result = await sut.signIn(input);
+
+    expect(output).toMatchObject(result);
+    expect(mockSignInUseCase.execute).toHaveBeenCalledWith(input);
   });
 });
