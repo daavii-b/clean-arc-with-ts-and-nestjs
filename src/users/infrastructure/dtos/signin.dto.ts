@@ -1,6 +1,6 @@
 import { SignInUseCase } from '@users/application/usecases/signin.usecase';
 
-export class signUpDto implements SignInUseCase.ISignInInput {
+export class SignInDto implements SignInUseCase.ISignInInput {
   email: string;
   password: string;
 }
