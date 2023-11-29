@@ -1,4 +1,5 @@
 import { IUserOutputDTO } from '@users/application/dtos/user-output';
+import { GetUserUseCase } from '@users/application/usecases/get-user.usecase';
 import { SignInUseCase } from '@users/application/usecases/signin.usecase';
 import { SignUpUseCase } from '@users/application/usecases/signup.usecase';
 import { UpdateUserPasswordUseCase } from '@users/application/usecases/update-user-password.usecase';
@@ -121,6 +122,23 @@ describe('UsersControllers unit tests', () => {
     expect(output).toStrictEqual(result);
     expect(result).toBeUndefined();
     expect(mockDeleteUserUseCase.execute).toHaveBeenCalledWith({
+      id,
+    });
+  });
+
+  it('should get an user', async () => {
+    const output: GetUserUseCase.IGetUserOutput = userOutput;
+
+    const mockGetUserUseCase = {
+      execute: jest.fn().mockReturnValue(Promise.resolve(output)),
+    };
+
+    sut['getUserUseCase'] = mockGetUserUseCase as any;
+
+    const result = await sut.findOne(id);
+
+    expect(output).toStrictEqual(result);
+    expect(mockGetUserUseCase.execute).toHaveBeenCalledWith({
       id,
     });
   });
