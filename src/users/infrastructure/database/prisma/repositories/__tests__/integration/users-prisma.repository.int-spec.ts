@@ -33,14 +33,18 @@ describe('UserPrismaRepository Integration Tests', () => {
       new NotFoundError(`User: fakeId not found `),
     );
   });
+
   it('should find an user by id', async () => {
     const entity = new UserEntity(userDataBuilder({}));
-    const newUser = await prismaService.user.create({
-      data: entity.toJSON(),
+
+    await sut.insert(entity);
+
+    const result = await prismaService.user.findUnique({
+      where: {
+        id: entity.id,
+      },
     });
 
-    const output = await sut.findById(newUser.id);
-
-    expect(output.toJSON()).toStrictEqual(entity.toJSON());
+    expect(result).toStrictEqual(entity.toJSON());
   });
 });
