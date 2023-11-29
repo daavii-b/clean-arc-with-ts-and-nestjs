@@ -49,28 +49,28 @@ export class UsersController {
 
   @Post()
   async signUp(@Body() signUpDto: SignUpDto) {
-    return await this.signUpUseCase.execute(signUpDto);
+    return this.signUpUseCase.execute(signUpDto);
   }
 
   @HttpCode(200)
   @Post('login')
   async signIn(@Body() signInDto: SignInDto) {
-    return await this.signInUseCase.execute(signInDto);
+    return this.signInUseCase.execute(signInDto);
   }
 
   @Get()
   async search(@Query() searchParams: ListUserDto) {
-    return await this.listUsersUseCase.execute(searchParams);
+    return this.listUsersUseCase.execute(searchParams);
   }
 
   @Get(':id')
   async findOne(@Param('id') id: string) {
-    return await this.getUserUseCase.execute({ id });
+    return this.getUserUseCase.execute({ id });
   }
 
   @Put(':id')
   async update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return await this.updateUserUseCase.execute({ id, ...updateUserDto });
+    return this.updateUserUseCase.execute({ id, ...updateUserDto });
   }
 
   @Patch(':id')
@@ -78,7 +78,7 @@ export class UsersController {
     @Param('id') id: string,
     @Body() updateUserPasswordDto: UpdateUserPasswordDto,
   ) {
-    return await this.updateUserPasswordUseCase.execute({
+    return this.updateUserPasswordUseCase.execute({
       id,
       ...updateUserPasswordDto,
     });
