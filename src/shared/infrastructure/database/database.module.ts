@@ -1,4 +1,4 @@
-import { DynamicModule, Module } from '@nestjs/common';
+import { DynamicModule, Global, Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { PrismaClient } from '@prisma/client';
 import { EnvConfigModule } from '../env-config/env-config.module';
@@ -17,7 +17,7 @@ export class DatabaseModule {
       providers: [
         {
           provide: PrismaService,
-          useFactory: (prismaClient) => prismaClient as PrismaService,
+          useFactory: () => prismaClient as PrismaService,
         },
       ],
     };
