@@ -102,6 +102,8 @@ describe('UserPrismaRepository Integration Tests', () => {
         new NUserRepository.SearchParams(),
       );
 
+      const items = searchOutput.items.reverse();
+
       expect(searchOutput).toBeInstanceOf(NUserRepository.SearchResult);
       expect(searchOutput.total).toBe(16);
       expect(searchOutput.items).toHaveLength(searchOutput.perPage);
@@ -109,6 +111,10 @@ describe('UserPrismaRepository Integration Tests', () => {
       searchOutput.items.forEach((item) =>
         expect(item).toBeInstanceOf(UserEntity),
       );
+
+      items.forEach((item, index) => {
+        expect(`test${index + 1}@example.com`).toBe(item.email);
+      });
     });
   });
 });
