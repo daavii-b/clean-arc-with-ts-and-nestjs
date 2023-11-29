@@ -5,7 +5,7 @@ import { NUserRepository } from '@users/domain/repositories/user.repository';
 import { UsersModelMapper } from '../models/users-model.mapper';
 
 export class UserPrismaRepository implements NUserRepository.IRepository {
-  sortableFields: string[];
+  sortableFields: string[] = ['name', 'createdAt'];
 
   constructor(private readonly prismaService: PrismaService) {}
 
@@ -17,10 +17,50 @@ export class UserPrismaRepository implements NUserRepository.IRepository {
     throw new Error('Method not implemented.');
   }
 
-  search(
+  async search(
     props: NUserRepository.SearchParams,
   ): Promise<NUserRepository.SearchResult> {
-    throw new Error('Method not implemented.');
+    const sortable = this.sortableFields.includes(props.sort);
+    const sortBy = sortable ? props.sort : 'createdAt';
+    const sortDir = sortable ? props.sortDir : 'desc';
+
+    const usersCount = await this.prismaService.user.count({
+      ...(props.filter && {
+        where: {
+          name: {
+            contains: props.filter,
+            mode: 'insensitive',
+          },
+        },
+      }),
+    });
+
+    const models = await this.prismaService.user.findMany({
+      ...(props.filter && {
+        where: {
+          name: {
+            contains: props.filter,
+            mode: 'insensitive',
+          },
+        },
+        orderBy: {
+          [sortBy]: sortDir,
+        },
+        skip:
+          props.page && props.page > 0 ? (props.page - 1) * props.perPage : 1,
+        take: props.perPage && props.perPage > 0 ? props.perPage : 15,
+      }),
+    });
+
+    return new NUserRepository.SearchResult({
+      items: models.map((model) => UsersModelMapper.toEntity(model)),
+      currentPage: props.page,
+      filter: props.filter,
+      perPage: props.perPage,
+      sort: sortBy,
+      sortDir,
+      total: usersCount,
+    });
   }
 
   async insert(entity: UserEntity): Promise<void> {
