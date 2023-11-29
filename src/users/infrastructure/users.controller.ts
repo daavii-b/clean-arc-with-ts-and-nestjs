@@ -18,7 +18,7 @@ import { SignInUseCase } from '@users/application/usecases/signin.usecase';
 import { SignUpUseCase } from '@users/application/usecases/signup.usecase';
 import { UpdateUserPasswordUseCase } from '@users/application/usecases/update-user-password.usecase';
 import { UpdateUserUseCase } from '@users/application/usecases/update-user.usecase';
-import { ListUserDto } from './dtos/list-users.dto';
+import { ListUsersDto } from './dtos/list-users.dto';
 import { SignInDto } from './dtos/signin.dto';
 import { SignUpDto } from './dtos/signup.dto';
 import { UpdateUserPasswordDto } from './dtos/update-user-password.dto';
@@ -59,7 +59,7 @@ export class UsersController {
   }
 
   @Get()
-  async search(@Query() searchParams: ListUserDto) {
+  async search(@Query() searchParams: ListUsersDto) {
     return this.listUsersUseCase.execute(searchParams);
   }
 

@@ -1,9 +1,11 @@
 import { IUserOutputDTO } from '@users/application/dtos/user-output';
 import { GetUserUseCase } from '@users/application/usecases/get-user.usecase';
+import { ListUsersUseCase } from '@users/application/usecases/list-users.usecase';
 import { SignInUseCase } from '@users/application/usecases/signin.usecase';
 import { SignUpUseCase } from '@users/application/usecases/signup.usecase';
 import { UpdateUserPasswordUseCase } from '@users/application/usecases/update-user-password.usecase';
 import { UpdateUserUseCase } from '@users/application/usecases/update-user.usecase';
+import { ListUsersDto } from '@users/infra/dtos/list-users.dto';
 import { UpdateUserPasswordDto } from '@users/infra/dtos/update-user-password.dto';
 import { UpdateUserDto } from '@users/infra/dtos/update-user.dto';
 import { UsersController } from '@users/infra/users.controller';
@@ -108,7 +110,7 @@ describe('UsersControllers unit tests', () => {
     });
   });
 
-  it('should delete an user password', async () => {
+  it('should delete an user', async () => {
     const output = undefined;
 
     const mockDeleteUserUseCase = {
@@ -141,5 +143,28 @@ describe('UsersControllers unit tests', () => {
     expect(mockGetUserUseCase.execute).toHaveBeenCalledWith({
       id,
     });
+  });
+
+  it('should list users', async () => {
+    const output: ListUsersUseCase.IListUsersOutput = {
+      items: [userOutput],
+      currentPage: 1,
+      lastPage: 1,
+      perPage: 15,
+      total: 1,
+    };
+    const searchParams: ListUsersDto = {
+      page: 1,
+    };
+    const mockListUsersUseCase = {
+      execute: jest.fn().mockReturnValue(Promise.resolve(output)),
+    };
+
+    sut['listUsersUseCase'] = mockListUsersUseCase as any;
+
+    const result = await sut.search(searchParams);
+
+    expect(output).toMatchObject(result);
+    expect(mockListUsersUseCase.execute).toHaveBeenCalledWith(searchParams);
   });
 });
