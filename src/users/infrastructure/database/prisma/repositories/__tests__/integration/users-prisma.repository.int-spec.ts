@@ -4,6 +4,7 @@ import { NotFoundError } from '@shared/domain/errors/not-found-error';
 import { DatabaseModule } from '@shared/infrastructure/database/database.module';
 import { setUpPrismaTests } from '@shared/infrastructure/database/prisma/testing/setup-prisma-tests';
 import { UserEntity } from '@users/domain/entities/user.entity';
+import { NUserRepository } from '@users/domain/repositories/user.repository';
 import { userDataBuilder } from '@users/domain/testing/helpers/user-data-builder';
 import { UserPrismaRepository } from '../../users-prisma.repository';
 describe('UserPrismaRepository Integration Tests', () => {
@@ -73,5 +74,41 @@ describe('UserPrismaRepository Integration Tests', () => {
     entities.forEach((item) =>
       expect(item.toJSON()).toStrictEqual(entity.toJSON()),
     );
+  });
+
+  describe('Search method tests', () => {
+    it('should apply only default params', async () => {
+      const createdAt = new Date();
+      const entities: UserEntity[] = [];
+
+      const arrange = Array(16).fill(userDataBuilder({}));
+
+      arrange.forEach((element, index) => {
+        entities.push(
+          new UserEntity({
+            ...element,
+            name: `user_${index}`,
+            email: `test${index}@example.com`,
+            createdAt: new Date(createdAt.getTime() + index),
+          }),
+        );
+      });
+
+      await prismaService.user.createMany({
+        data: entities.map((entity) => entity.toJSON()),
+      });
+
+      const searchOutput = await sut.search(
+        new NUserRepository.SearchParams(),
+      );
+
+      expect(searchOutput).toBeInstanceOf(NUserRepository.SearchResult);
+      expect(searchOutput.total).toBe(16);
+      expect(searchOutput.items).toHaveLength(searchOutput.perPage);
+
+      searchOutput.items.forEach((item) =>
+        expect(item).toBeInstanceOf(UserEntity),
+      );
+    });
   });
 });

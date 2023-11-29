@@ -43,13 +43,13 @@ export class UserPrismaRepository implements NUserRepository.IRepository {
             mode: 'insensitive',
           },
         },
-        orderBy: {
-          [sortBy]: sortDir,
-        },
-        skip:
-          props.page && props.page > 0 ? (props.page - 1) * props.perPage : 1,
-        take: props.perPage && props.perPage > 0 ? props.perPage : 15,
       }),
+      orderBy: {
+        [sortBy]: sortDir,
+      },
+      skip:
+        props.page && props.page > 0 ? (props.page - 1) * props.perPage : 1,
+      take: props.perPage && props.perPage > 0 ? props.perPage : 15,
     });
 
     return new NUserRepository.SearchResult({
