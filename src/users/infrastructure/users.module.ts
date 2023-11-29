@@ -9,7 +9,7 @@ import { SignUpUseCase } from '@users/application/usecases/signup.usecase';
 import { UpdateUserPasswordUseCase } from '@users/application/usecases/update-user-password.usecase';
 import { UpdateUserUseCase } from '@users/application/usecases/update-user.usecase';
 import { NUserRepository } from '@users/domain/repositories/user.repository';
-import { UserPrismaRepository } from './database/prisma/repositories/user-prisma.repository';
+import { UserPrismaRepository } from './database/prisma/repositories/users-prisma.repository';
 import { BcryptHashProvider } from './providers/hash-provider/bcrypt-hash.provider';
 import { UsersController } from './users.controller';
 

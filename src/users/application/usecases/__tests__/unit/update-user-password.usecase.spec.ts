@@ -4,7 +4,7 @@ import { IHashProvider } from '@shared/application/providers/hash-provider';
 import { NotFoundError } from '@shared/domain/errors/not-found-error';
 import { UserEntity } from '@users/domain/entities/user.entity';
 import { userDataBuilder } from '@users/domain/testing/helpers/user-data-builder';
-import { UserInMemoryRepository } from '@users/infra/database/in-memory/repositories/user-in-memory.repository';
+import { UserInMemoryRepository } from '@users/infra/database/in-memory/repositories/users-in-memory.repository';
 import { BcryptHashProvider } from '@users/infra/providers/hash-provider/bcrypt-hash.provider';
 import { UpdateUserPasswordUseCase } from '../../update-user-password.usecase';
 

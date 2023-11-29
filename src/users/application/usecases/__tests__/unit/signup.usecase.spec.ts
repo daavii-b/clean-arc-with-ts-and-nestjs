@@ -3,7 +3,7 @@ import { IHashProvider } from '@shared/application/providers/hash-provider';
 import { ConflictError } from '@shared/domain/errors/conflict-error';
 import { SignUpUseCase } from '@users/application/usecases/signup.usecase';
 import { userDataBuilder } from '@users/domain/testing/helpers/user-data-builder';
-import { UserInMemoryRepository } from '@users/infra/database/in-memory/repositories/user-in-memory.repository';
+import { UserInMemoryRepository } from '@users/infra/database/in-memory/repositories/users-in-memory.repository';
 import { BcryptHashProvider } from '@users/infra/providers/hash-provider/bcrypt-hash.provider';
 
 describe('SignUpUseCase unit tests', () => {

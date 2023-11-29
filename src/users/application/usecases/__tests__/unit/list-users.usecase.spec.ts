@@ -1,7 +1,7 @@
 import { UserEntity } from '@users/domain/entities/user.entity';
 import { NUserRepository } from '@users/domain/repositories/user.repository';
 import { userDataBuilder } from '@users/domain/testing/helpers/user-data-builder';
-import { UserInMemoryRepository } from '@users/infra/database/in-memory/repositories/user-in-memory.repository';
+import { UserInMemoryRepository } from '@users/infra/database/in-memory/repositories/users-in-memory.repository';
 import { ListUsersUseCase } from '../../list-users.usecase';
 
 describe('ListUsersUseCase unit tests', () => {

@@ -2,7 +2,7 @@ import { ConflictError } from '@shared/domain/errors/conflict-error';
 import { NotFoundError } from '@shared/domain/errors/not-found-error';
 import { UserEntity } from '@users/domain/entities/user.entity';
 import { userDataBuilder } from '@users/domain/testing/helpers/user-data-builder';
-import { UserInMemoryRepository } from '../../user-in-memory.repository';
+import { UserInMemoryRepository } from '../../users-in-memory.repository';
 
 describe('UserInMemoryRepository unit test', () => {
   let sut: UserInMemoryRepository;
