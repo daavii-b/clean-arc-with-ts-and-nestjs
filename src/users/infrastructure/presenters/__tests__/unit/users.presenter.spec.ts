@@ -1,7 +1,7 @@
 import { instanceToPlain } from 'class-transformer';
 import { UserPresenter } from '../../users.presenter';
 
-describe('UserPresente Unit Tests', () => {
+describe('UserPresenter Unit Tests', () => {
   const createdAt = new Date();
   const props = {
     id: '69638f89-c731-475f-9bfd-cd858693d7d0',
@@ -16,7 +16,7 @@ describe('UserPresente Unit Tests', () => {
     sut = new UserPresenter(props);
   });
   describe('constructor method', () => {
-    it('should be defined', () => {
+    it('should set props value', () => {
       expect(sut).toBeDefined();
       expect(sut.id).toEqual(props.id);
       expect(sut.name).toEqual(props.name);
