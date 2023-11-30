@@ -46,11 +46,7 @@ describe('GetUserUseCase Integration Tests', () => {
 
     await repository.insert(entity);
 
-    await sut.execute({ id: entity.id });
-
-    const output = await prismaService.user.findUnique({
-      where: { id: entity.id },
-    });
+    const output = await sut.execute({ id: entity.id });
 
     expect(output).toStrictEqual(entity.toJSON());
   });

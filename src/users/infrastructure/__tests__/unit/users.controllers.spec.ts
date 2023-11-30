@@ -8,7 +8,10 @@ import { UpdateUserUseCase } from '@users/application/usecases/update-user.useca
 import { ListUsersDto } from '@users/infra/dtos/list-users.dto';
 import { UpdateUserPasswordDto } from '@users/infra/dtos/update-user-password.dto';
 import { UpdateUserDto } from '@users/infra/dtos/update-user.dto';
-import { UserPresenter } from '@users/infra/presenters/users.presenter';
+import {
+  UserCollectionPresenter,
+  UserPresenter,
+} from '@users/infra/presenters/users.presenter';
 import { UsersController } from '@users/infra/users.controller';
 
 describe('UsersControllers unit tests', () => {
@@ -162,9 +165,9 @@ describe('UsersControllers unit tests', () => {
 
     sut['listUsersUseCase'] = mockListUsersUseCase as any;
 
-    const result = await sut.search(searchParams);
+    const presenter = await sut.search(searchParams);
 
-    expect(output).toMatchObject(result);
+    expect(presenter).toMatchObject(new UserCollectionPresenter(output));
     expect(mockListUsersUseCase.execute).toHaveBeenCalledWith(searchParams);
   });
 });
