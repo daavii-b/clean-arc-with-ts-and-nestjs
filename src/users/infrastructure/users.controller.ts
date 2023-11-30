@@ -11,6 +11,7 @@ import {
   Put,
   Query,
 } from '@nestjs/common';
+import { IUserOutputDTO } from '@users/application/dtos/user-output';
 import { DeleteUserUseCase } from '@users/application/usecases/delete-user.usecase';
 import { GetUserUseCase } from '@users/application/usecases/get-user.usecase';
 import { ListUsersUseCase } from '@users/application/usecases/list-users.usecase';
@@ -23,6 +24,7 @@ import { SignInDto } from './dtos/signin.dto';
 import { SignUpDto } from './dtos/signup.dto';
 import { UpdateUserPasswordDto } from './dtos/update-user-password.dto';
 import { UpdateUserDto } from './dtos/update-user.dto';
+import { UserPresenter } from './presenters/users.presenter';
 
 @Controller('users')
 export class UsersController {
@@ -47,15 +49,21 @@ export class UsersController {
   @Inject(GetUserUseCase.UseCase)
   private getUserUseCase: GetUserUseCase.UseCase;
 
+  static userToResponse(output: IUserOutputDTO) {
+    return new UserPresenter(output);
+  }
+
   @Post()
   async signUp(@Body() signUpDto: SignUpDto) {
-    return this.signUpUseCase.execute(signUpDto);
+    const output = await this.signUpUseCase.execute(signUpDto);
+    return UsersController.userToResponse(output);
   }
 
   @HttpCode(200)
   @Post('login')
   async signIn(@Body() signInDto: SignInDto) {
-    return this.signInUseCase.execute(signInDto);
+    const output = await this.signInUseCase.execute(signInDto);
+    return UsersController.userToResponse(output);
   }
 
   @Get()
@@ -65,12 +73,17 @@ export class UsersController {
 
   @Get(':id')
   async findOne(@Param('id') id: string) {
-    return this.getUserUseCase.execute({ id });
+    const output = await this.getUserUseCase.execute({ id });
+    return UsersController.userToResponse(output);
   }
 
   @Put(':id')
   async update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.updateUserUseCase.execute({ id, ...updateUserDto });
+    const output = await this.updateUserUseCase.execute({
+      id,
+      ...updateUserDto,
+    });
+    return UsersController.userToResponse(output);
   }
 
   @Patch(':id')
@@ -78,10 +91,11 @@ export class UsersController {
     @Param('id') id: string,
     @Body() updateUserPasswordDto: UpdateUserPasswordDto,
   ) {
-    return this.updateUserPasswordUseCase.execute({
+    const output = await this.updateUserPasswordUseCase.execute({
       id,
       ...updateUserPasswordDto,
     });
+    return UsersController.userToResponse(output);
   }
 
   @HttpCode(204)
