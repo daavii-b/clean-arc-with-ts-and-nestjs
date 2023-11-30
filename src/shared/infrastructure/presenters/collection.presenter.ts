@@ -16,6 +16,5 @@ export abstract class CollectionPresenter {
   get meta() {
     return this.paginationPresenter;
   }
-
   abstract get data();
 }
