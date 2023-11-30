@@ -1,18 +1,20 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { PrismaClient } from '@prisma/client';
+import { IHashProvider } from '@shared/application/providers/hash-provider';
 import { NotFoundError } from '@shared/domain/errors/not-found-error';
 import { DatabaseModule } from '@shared/infrastructure/database/database.module';
 import { setUpPrismaTests } from '@shared/infrastructure/database/prisma/testing/setup-prisma-tests';
 import { UserEntity } from '@users/domain/entities/user.entity';
 import { userDataBuilder } from '@users/domain/testing/helpers/user-data-builder';
 import { UserPrismaRepository } from '@users/infra/database/prisma/repositories/users-prisma.repository';
-import { GetUserUseCase } from '../../get-user.usecase';
+import { UpdateUserUseCase } from '../../update-user.usecase';
 
-describe('GetUserUseCase Integration Tests', () => {
+describe('UpdateUseCase Integration Tests', () => {
   const prismaService = new PrismaClient();
-  let sut: GetUserUseCase.UseCase;
+  let sut: UpdateUserUseCase.UseCase;
   let repository: UserPrismaRepository;
   let module: TestingModule;
+  let provider: IHashProvider;
 
   beforeAll(async () => {
     setUpPrismaTests();
@@ -25,7 +27,7 @@ describe('GetUserUseCase Integration Tests', () => {
   });
 
   beforeEach(async () => {
-    sut = new GetUserUseCase.UseCase(repository);
+    sut = new UpdateUserUseCase.UseCase(repository);
     await prismaService.user.deleteMany();
   });
 
@@ -36,22 +38,20 @@ describe('GetUserUseCase Integration Tests', () => {
 
   it('should throw an error if not find an user', async () => {
     await expect(async () => {
-      await sut.execute({ id: 'fakeId' });
+      await sut.execute({ id: 'fakeId', name: 'fakeName' });
     }).rejects.toThrow(new NotFoundError(`User: fakeId not found `));
   });
 
-  it('should get an user ', async () => {
-    const props = userDataBuilder({});
-    const entity = new UserEntity(props);
+  it('should update an user ', async () => {
+    const entity = new UserEntity(userDataBuilder({}));
 
     await repository.insert(entity);
 
-    await sut.execute({ id: entity.id });
+    entity.updateName('Other Fake Name');
 
-    const output = await prismaService.user.findUnique({
-      where: { id: entity.id },
-    });
+    const output = await sut.execute(entity);
 
+    expect(output.name).toBe('Other Fake Name');
     expect(output).toStrictEqual(entity.toJSON());
   });
 });
