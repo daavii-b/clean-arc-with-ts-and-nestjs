@@ -1,6 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { PrismaClient } from '@prisma/client';
-import { IHashProvider } from '@shared/application/providers/hash-provider';
 import { NotFoundError } from '@shared/domain/errors/not-found-error';
 import { DatabaseModule } from '@shared/infrastructure/database/database.module';
 import { setUpPrismaTests } from '@shared/infrastructure/database/prisma/testing/setup-prisma-tests';
@@ -14,7 +13,6 @@ describe('UpdateUseCase Integration Tests', () => {
   let sut: UpdateUserUseCase.UseCase;
   let repository: UserPrismaRepository;
   let module: TestingModule;
-  let provider: IHashProvider;
 
   beforeAll(async () => {
     setUpPrismaTests();
@@ -47,11 +45,14 @@ describe('UpdateUseCase Integration Tests', () => {
 
     await repository.insert(entity);
 
-    entity.updateName('Other Fake Name');
+    const output = await sut.execute({
+      id: entity.id,
+      name: 'Other Fake Name',
+    });
 
-    const output = await sut.execute(entity);
+    const result = await repository.findById(entity.id);
 
     expect(output.name).toBe('Other Fake Name');
-    expect(output).toStrictEqual(entity.toJSON());
+    expect(output).toStrictEqual(result.toJSON());
   });
 });
