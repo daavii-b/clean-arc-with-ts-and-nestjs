@@ -13,7 +13,7 @@ describe('PaginationPresenter Unit Tests', () => {
     sut = new StubCollectionPresenter({
       currentPage: 1,
       perPage: 6,
-      totalPage: 12,
+      total: 12,
       lastPage: 2,
     });
   });
@@ -23,7 +23,7 @@ describe('PaginationPresenter Unit Tests', () => {
       expect(sut['paginationPresenter']).toBeInstanceOf(PaginationPresenter);
       expect(sut['paginationPresenter'].currentPage).toEqual(1);
       expect(sut['paginationPresenter'].perPage).toEqual(6);
-      expect(sut['paginationPresenter'].totalPage).toEqual(12);
+      expect(sut['paginationPresenter'].total).toEqual(12);
       expect(sut['paginationPresenter'].lastPage).toEqual(2);
     });
 
@@ -35,7 +35,7 @@ describe('PaginationPresenter Unit Tests', () => {
         meta: {
           currentPage: 1,
           perPage: 6,
-          totalPage: 12,
+          total: 12,
           lastPage: 2,
         },
       });

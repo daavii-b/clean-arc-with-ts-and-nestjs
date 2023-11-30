@@ -4,7 +4,7 @@ export type PaginationPresenterProps = {
   currentPage: number;
   lastPage: number;
   perPage: number;
-  totalPage: number;
+  total: number;
 };
 
 export class PaginationPresenter {
@@ -15,12 +15,12 @@ export class PaginationPresenter {
   @Transform(({ value }) => parseInt(value))
   perPage: number;
   @Transform(({ value }) => parseInt(value))
-  totalPage: number;
+  total: number;
 
   constructor(props: PaginationPresenterProps) {
     this.currentPage = props.currentPage;
     this.lastPage = props.lastPage;
     this.perPage = props.perPage;
-    this.totalPage = props.totalPage;
+    this.total = props.total;
   }
 }

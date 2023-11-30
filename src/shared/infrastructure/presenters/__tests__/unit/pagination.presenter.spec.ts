@@ -8,7 +8,7 @@ describe('PaginationPresenter Unit Tests', () => {
   let props: PaginationPresenterProps = {
     currentPage: 1,
     perPage: 6,
-    totalPage: 12,
+    total: 12,
     lastPage: 2,
   };
   let sut: PaginationPresenter;
@@ -22,7 +22,7 @@ describe('PaginationPresenter Unit Tests', () => {
       expect(sut).toBeDefined();
       expect(sut.currentPage).toEqual(props.currentPage);
       expect(sut.perPage).toEqual(props.perPage);
-      expect(sut.totalPage).toEqual(props.totalPage);
+      expect(sut.total).toEqual(props.total);
       expect(sut.lastPage).toEqual(props.lastPage);
     });
 
@@ -30,14 +30,14 @@ describe('PaginationPresenter Unit Tests', () => {
       props = {
         currentPage: '1' as any,
         perPage: '6' as any,
-        totalPage: '12' as any,
+        total: '12' as any,
         lastPage: '2' as any,
       };
       sut = new PaginationPresenter(props);
       expect(sut).toBeDefined();
       expect(sut.currentPage).toBe(props.currentPage);
       expect(sut.perPage).toBe(props.perPage);
-      expect(sut.totalPage).toBe(props.totalPage);
+      expect(sut.total).toBe(props.total);
       expect(sut.lastPage).toBe(props.lastPage);
     });
 
@@ -45,7 +45,7 @@ describe('PaginationPresenter Unit Tests', () => {
       props = {
         currentPage: '1' as any,
         perPage: '6' as any,
-        totalPage: '12' as any,
+        total: '12' as any,
         lastPage: '2' as any,
       };
       sut = new PaginationPresenter(props);
@@ -54,7 +54,7 @@ describe('PaginationPresenter Unit Tests', () => {
       expect(output).toStrictEqual({
         currentPage: 1,
         perPage: 6,
-        totalPage: 12,
+        total: 12,
         lastPage: 2,
       });
     });
