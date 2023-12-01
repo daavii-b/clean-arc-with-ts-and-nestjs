@@ -19,6 +19,7 @@ import { SignInUseCase } from '@users/application/usecases/signin.usecase';
 import { SignUpUseCase } from '@users/application/usecases/signup.usecase';
 import { UpdateUserPasswordUseCase } from '@users/application/usecases/update-user-password.usecase';
 import { UpdateUserUseCase } from '@users/application/usecases/update-user.usecase';
+import { AuthService } from 'src/auth/infrastructure/auth.service';
 import { ListUsersDto } from './dtos/list-users.dto';
 import { SignInDto } from './dtos/signin.dto';
 import { SignUpDto } from './dtos/signup.dto';
@@ -52,6 +53,9 @@ export class UsersController {
   @Inject(GetUserUseCase.UseCase)
   private getUserUseCase: GetUserUseCase.UseCase;
 
+  @Inject(AuthService)
+  private authService: AuthService;
+
   static userToResponse(output: IUserOutputDTO) {
     return new UserPresenter(output);
   }
@@ -70,7 +74,7 @@ export class UsersController {
   @Post('login')
   async signIn(@Body() signInDto: SignInDto) {
     const output = await this.signInUseCase.execute(signInDto);
-    return UsersController.userToResponse(output);
+    return this.authService.generateJwt(output.id);
   }
 
   @Get()
