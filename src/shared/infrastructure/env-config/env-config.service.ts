@@ -12,4 +12,12 @@ export class EnvConfigService implements IEnvConfig {
   getAppPort(): number {
     return Number(this._configService.get<number>('PORT'));
   }
+
+  getJWTSecret() {
+    return String(this._configService.get<string>('JWT_SECRET'));
+  }
+
+  getJWTExpireIn() {
+    return Number(this._configService.get<number>('JWT_EXPIRE_IN'));
+  }
 }
