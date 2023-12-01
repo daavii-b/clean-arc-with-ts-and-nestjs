@@ -1,14 +1,14 @@
 import { SortDirection } from '@shared/repositories/searchable-repository-contract';
 import { ListUsersUseCase } from '@users/application/usecases/list-users.usecase';
-import { IsEnum, IsNumber, IsOptional, IsString } from 'class-validator';
+import { IsEnum, IsOptional, IsString } from 'class-validator';
 
 export class ListUsersDto implements ListUsersUseCase.IListUsersInput {
   @IsOptional()
-  @IsNumber({ allowNaN: false })
+  @IsString()
   page?: number;
 
   @IsOptional()
-  @IsNumber({ allowNaN: false })
+  @IsString()
   perPage?: number;
 
   @IsOptional()

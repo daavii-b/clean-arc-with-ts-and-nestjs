@@ -80,6 +80,90 @@ describe('UserController End2End', () => {
       });
     });
 
+    it('should returns users with filter, pagination and ordered', async () => {
+      const entities: UserEntity[] = [];
+      const arrange = Array(6).fill(userDataBuilder({}));
+
+      arrange.forEach((entity, index) => {
+        entities.push(
+          new UserEntity({
+            ...entity,
+            name: `test-${index}`,
+            email: `test${index}@example.com`,
+          }),
+        );
+      });
+
+      entities[5].updateName('otherName');
+
+      await prismaService.user.createMany({
+        data: entities.map((entity) => entity.toJSON()),
+      });
+
+      let searchParams = {
+        filter: 'TEST',
+        page: 1,
+        perPage: 2,
+        sort: 'name',
+        sortDir: 'asc',
+      };
+      let queryParams = new URLSearchParams(searchParams as any).toString();
+
+      let response = await request(app.getHttpServer())
+        .get(`/users/?${queryParams}`)
+        .expect(200);
+
+      expect(Object.keys(response.body)).toStrictEqual(['data', 'meta']);
+      expect(response.body).toStrictEqual({
+        data: [entities[0], entities[1]].map((entity) =>
+          instanceToPlain(UsersController.userToResponse(entity.toJSON())),
+        ),
+        meta: { currentPage: 1, lastPage: 3, perPage: 2, total: 5 },
+      });
+
+      searchParams = {
+        filter: 'TEST',
+        page: 2,
+        perPage: 2,
+        sort: 'name',
+        sortDir: 'asc',
+      };
+      queryParams = new URLSearchParams(searchParams as any).toString();
+
+      response = await request(app.getHttpServer())
+        .get(`/users/?${queryParams}`)
+        .expect(200);
+
+      expect(Object.keys(response.body)).toStrictEqual(['data', 'meta']);
+      expect(response.body).toStrictEqual({
+        data: [entities[2], entities[3]].map((entity) =>
+          instanceToPlain(UsersController.userToResponse(entity.toJSON())),
+        ),
+        meta: { currentPage: 2, lastPage: 3, perPage: 2, total: 5 },
+      });
+
+      searchParams = {
+        filter: 'TEST',
+        page: 3,
+        perPage: 2,
+        sort: 'name',
+        sortDir: 'asc',
+      };
+      queryParams = new URLSearchParams(searchParams as any).toString();
+
+      response = await request(app.getHttpServer())
+        .get(`/users/?${queryParams}`)
+        .expect(200);
+
+      expect(Object.keys(response.body)).toStrictEqual(['data', 'meta']);
+      expect(response.body).toStrictEqual({
+        data: [entities[4]].map((entity) =>
+          instanceToPlain(UsersController.userToResponse(entity.toJSON())),
+        ),
+        meta: { currentPage: 3, lastPage: 3, perPage: 2, total: 5 },
+      });
+    });
+
     it('should return 422 status code when query params is invalid', async () => {
       const response = await request(app.getHttpServer())
         .get('/users/?fakeId=test')
