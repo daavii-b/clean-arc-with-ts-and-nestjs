@@ -130,7 +130,7 @@ export class UserPrismaRepository implements NUserRepository.IRepository {
 
       return UsersModelMapper.toEntity(user);
     } catch (error) {
-      throw new NotFoundError(`User: ${id} not found `);
+      throw new NotFoundError(`User: ${id} not found`);
     }
   }
 }
