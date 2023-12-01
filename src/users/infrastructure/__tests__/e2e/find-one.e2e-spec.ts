@@ -7,7 +7,6 @@ import { EnvConfigModule } from '@shared/infrastructure/env-config/env-config.mo
 import { UserEntity } from '@users/domain/entities/user.entity';
 import { NUserRepository } from '@users/domain/repositories/user.repository';
 import { userDataBuilder } from '@users/domain/testing/helpers/user-data-builder';
-import { UpdateUserDto } from '@users/infra/dtos/update-user.dto';
 import { UsersController } from '@users/infra/users.controller';
 import { UsersModule } from '@users/infra/users.module';
 import { instanceToPlain } from 'class-transformer';
@@ -18,7 +17,6 @@ describe('UserController End2End', () => {
   let app: INestApplication;
   let module: TestingModule;
   let repository: NUserRepository.IRepository;
-  let updateDTO: UpdateUserDto;
 
   const prismaService = new PrismaClient();
 
@@ -41,21 +39,16 @@ describe('UserController End2End', () => {
   });
 
   beforeEach(async () => {
-    updateDTO = {
-      name: 'UserTest',
-    };
-
     await prismaService.user.deleteMany();
   });
 
-  describe('PUT /users/:id', () => {
-    it('should update an user', async () => {
+  describe('GET /users/:id', () => {
+    it('should get an user', async () => {
       const entity = new UserEntity(userDataBuilder({}));
       await repository.insert(entity);
 
       const response = await request(app.getHttpServer())
-        .put(`/users/${entity.id}`)
-        .send(updateDTO)
+        .get(`/users/${entity.id}`)
         .expect(200);
 
       expect(Object.keys(response.body)).toStrictEqual(['data']);
@@ -65,30 +58,11 @@ describe('UserController End2End', () => {
       const serialized = instanceToPlain(presenter);
 
       expect(response.body.data).toStrictEqual(serialized);
-      expect(response.body.data.name).toStrictEqual(updateDTO.name);
-    });
-
-    it('should return 422 status code if invalid request', async () => {
-      const entity = new UserEntity(userDataBuilder({}));
-      await repository.insert(entity);
-
-      const response = await request(app.getHttpServer())
-        .put(`/users/${entity.id}`)
-        .send({})
-        .expect(422);
-
-      expect(response.body.error).toBe('Unprocessable Entity');
-      expect(response.body.message).toStrictEqual([
-        'name must be shorter than or equal to 255 characters',
-        'name must be a string',
-        'name should not be empty',
-      ]);
     });
 
     it('should return 404 status code when user not found', async () => {
       const response = await request(app.getHttpServer())
-        .put('/users/fakeId-test')
-        .send(updateDTO)
+        .get('/users/fakeId-test')
         .expect(404)
         .expect({
           statusCode: 404,
@@ -99,5 +73,65 @@ describe('UserController End2End', () => {
       expect(response.body.error).toBe('Not Found');
       expect(response.body.message).toBe('User: fakeId-test not found');
     });
+
+    // it('should return 422 status code when email field is invalid', async () => {
+    //   delete signUpDTO.email;
+    //   const response = await request(app.getHttpServer())
+    //     .post('/users')
+    //     .send(signUpDTO)
+    //     .expect(422);
+
+    //   expect(response.body.error).toBe('Unprocessable Entity');
+    //   expect(response.body.message).toStrictEqual([
+    //     'email must be an email',
+    //     'email must be shorter than or equal to 255 characters',
+    //     'email must be a string',
+    //     'email should not be empty',
+    //   ]);
+    // });
+
+    // it('should return 422 status code when password field is invalid', async () => {
+    //   delete signUpDTO.password;
+    //   const response = await request(app.getHttpServer())
+    //     .post('/users')
+    //     .send(signUpDTO)
+    //     .expect(422);
+
+    //   expect(response.body.error).toBe('Unprocessable Entity');
+    //   expect(response.body.message).toStrictEqual([
+    //     'password is not strong enough',
+    //     'password must be shorter than or equal to 100 characters',
+    //     'password must be a string',
+    //     'password should not be empty',
+    //   ]);
+    // });
+
+    // it('should return 422 status code when receive unexpected field', async () => {
+    //   const response = await request(app.getHttpServer())
+    //     .post('/users')
+    //     .send(Object.assign(signUpDTO, { test: 'test' }))
+    //     .expect(422);
+
+    //   expect(response.body.error).toBe('Unprocessable Entity');
+    //   expect(response.body.message).toStrictEqual([
+    //     'property test should not exist',
+    //   ]);
+    // });
+
+    // it('should return 409 status code when email already exists', async () => {
+    //   const entity = new UserEntity(userDataBuilder({ ...signUpDTO }));
+    //   await repository.insert(entity);
+    //   const response = await request(app.getHttpServer())
+    //     .post('/users')
+    //     .send(signUpDTO)
+    //     .expect(409)
+    //     .expect({
+    //       statusCode: 409,
+    //       error: 'Conflict',
+    //       message: 'Email already exists',
+    //     });
+
+    //   expect(response.body.error).toBe('Conflict');
+    // });
   });
 });
