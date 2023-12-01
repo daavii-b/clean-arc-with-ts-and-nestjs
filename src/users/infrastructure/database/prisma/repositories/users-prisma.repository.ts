@@ -20,7 +20,7 @@ export class UserPrismaRepository implements NUserRepository.IRepository {
 
       return UsersModelMapper.toEntity(user);
     } catch (error) {
-      throw new NotFoundError(`User: ${email} not found `);
+      throw new NotFoundError(`User: ${email} not found`);
     }
   }
 

@@ -32,7 +32,7 @@ describe('UserPrismaRepository Integration Tests', () => {
 
   it('should throws error when user not found', async () => {
     await expect(async () => await sut.findById('fakeId')).rejects.toThrow(
-      new NotFoundError(`User: fakeId not found `),
+      new NotFoundError(`User: fakeId not found`),
     );
   });
 
@@ -81,7 +81,7 @@ describe('UserPrismaRepository Integration Tests', () => {
     const entity = new UserEntity(userDataBuilder({}));
 
     await expect(async () => await sut.update(entity)).rejects.toThrow(
-      new NotFoundError(`User: ${entity.id} not found `),
+      new NotFoundError(`User: ${entity.id} not found`),
     );
   });
 
@@ -107,7 +107,7 @@ describe('UserPrismaRepository Integration Tests', () => {
     const entity = new UserEntity(userDataBuilder({}));
 
     await expect(async () => await sut.update(entity)).rejects.toThrow(
-      new NotFoundError(`User: ${entity.id} not found `),
+      new NotFoundError(`User: ${entity.id} not found`),
     );
   });
 
@@ -130,7 +130,7 @@ describe('UserPrismaRepository Integration Tests', () => {
   it('should throws error when try find an user by email and not found', async () => {
     await expect(
       async () => await sut.findByEmail('fake@email.com'),
-    ).rejects.toThrow(new NotFoundError(`User: fake@email.com not found `));
+    ).rejects.toThrow(new NotFoundError(`User: fake@email.com not found`));
   });
 
   it('should find an user by email', async () => {

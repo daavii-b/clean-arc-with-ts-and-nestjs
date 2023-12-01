@@ -48,7 +48,7 @@ describe('UpdateUserPasswordUseCase Integration Tests', () => {
         password: 'fakePassword',
         oldPassword: entity.password,
       });
-    }).rejects.toThrow(new NotFoundError(`User: fakeId not found `));
+    }).rejects.toThrow(new NotFoundError(`User: fakeId not found`));
   });
 
   it('should throw an error if new password is not provided', async () => {

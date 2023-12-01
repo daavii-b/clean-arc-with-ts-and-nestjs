@@ -37,7 +37,7 @@ describe('UpdateUseCase Integration Tests', () => {
   it('should throw an error if not find an user', async () => {
     await expect(async () => {
       await sut.execute({ id: 'fakeId', name: 'fakeName' });
-    }).rejects.toThrow(new NotFoundError(`User: fakeId not found `));
+    }).rejects.toThrow(new NotFoundError(`User: fakeId not found`));
   });
 
   it('should update an user ', async () => {
