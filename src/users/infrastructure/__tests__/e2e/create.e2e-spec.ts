@@ -4,7 +4,9 @@ import { PrismaClient } from '@prisma/client';
 import { DatabaseModule } from '@shared/infrastructure/database/database.module';
 import { setUpPrismaTests } from '@shared/infrastructure/database/prisma/testing/setup-prisma-tests';
 import { EnvConfigModule } from '@shared/infrastructure/env-config/env-config.module';
+import { UserEntity } from '@users/domain/entities/user.entity';
 import { NUserRepository } from '@users/domain/repositories/user.repository';
+import { userDataBuilder } from '@users/domain/testing/helpers/user-data-builder';
 import { SignUpDto } from '@users/infra/dtos/signup.dto';
 import { UsersController } from '@users/infra/users.controller';
 import { UsersModule } from '@users/infra/users.module';
@@ -143,6 +145,22 @@ describe('UsersControllers unit tests', () => {
       expect(response.body.message).toStrictEqual([
         'property test should not exist',
       ]);
+    });
+
+    it('should return 409 status code when email already exists', async () => {
+      const entity = new UserEntity(userDataBuilder({ ...signUpDTO }));
+      await repository.insert(entity);
+      const response = await request(app.getHttpServer())
+        .post('/users')
+        .send(signUpDTO)
+        .expect(409)
+        .expect({
+          statusCode: 409,
+          error: 'Conflict',
+          message: 'Email already exists',
+        });
+
+      expect(response.body.error).toBe('Conflict');
     });
   });
 });
