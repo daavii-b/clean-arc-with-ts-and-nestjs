@@ -84,10 +84,65 @@ describe('UsersControllers unit tests', () => {
         'password must be a string',
         'password should not be empty',
       ]);
+    });
 
-      // const user = await repository.findById(response.body.data.id);
-      // const presenter = UsersController.userToResponse(user.toJSON());
-      // const serialized = instanceToPlain(presenter);
+    it('should return 422 status code when name field is invalid', async () => {
+      delete signUpDTO.name;
+      const response = await request(app.getHttpServer())
+        .post('/users')
+        .send(signUpDTO)
+        .expect(422);
+
+      expect(response.body.error).toBe('Unprocessable Entity');
+      expect(response.body.message).toStrictEqual([
+        'name must be shorter than or equal to 255 characters',
+        'name must be a string',
+        'name should not be empty',
+      ]);
+    });
+
+    it('should return 422 status code when email field is invalid', async () => {
+      delete signUpDTO.email;
+      const response = await request(app.getHttpServer())
+        .post('/users')
+        .send(signUpDTO)
+        .expect(422);
+
+      expect(response.body.error).toBe('Unprocessable Entity');
+      expect(response.body.message).toStrictEqual([
+        'email must be an email',
+        'email must be shorter than or equal to 255 characters',
+        'email must be a string',
+        'email should not be empty',
+      ]);
+    });
+
+    it('should return 422 status code when password field is invalid', async () => {
+      delete signUpDTO.password;
+      const response = await request(app.getHttpServer())
+        .post('/users')
+        .send(signUpDTO)
+        .expect(422);
+
+      expect(response.body.error).toBe('Unprocessable Entity');
+      expect(response.body.message).toStrictEqual([
+        'password is not strong enough',
+        'password must be shorter than or equal to 100 characters',
+        'password must be a string',
+        'password should not be empty',
+      ]);
+    });
+
+    it('should return 422 status code when receive unexpected field', async () => {
+      const response = await request(app.getHttpServer())
+        .post('/users')
+        .send(Object.assign(signUpDTO, { test: 'test' }))
+        .expect(422);
+
+      expect(response.body.error).toBe('Unprocessable Entity');
+      expect(response.body.message).toStrictEqual([
+        'property test should not exist',
+      ]);
     });
   });
 });
