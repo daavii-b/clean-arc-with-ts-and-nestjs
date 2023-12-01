@@ -48,6 +48,11 @@ describe('UserController End2End', () => {
     await prismaService.user.deleteMany();
   });
 
+  afterAll(async () => {
+    await module.close();
+    await app.close();
+  });
+
   describe('PUT /users/:id', () => {
     it('should update an user', async () => {
       const entity = new UserEntity(userDataBuilder({}));

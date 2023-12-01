@@ -33,6 +33,7 @@ describe('ConflictErrorFilter End2End', () => {
 
   afterAll(async () => {
     await module.close();
+    await app.close();
   });
   it('should be defined', () => {
     expect(new ConflictErrorFilter()).toBeDefined();

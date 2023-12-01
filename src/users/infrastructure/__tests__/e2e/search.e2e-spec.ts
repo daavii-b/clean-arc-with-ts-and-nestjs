@@ -42,6 +42,11 @@ describe('UserController End2End', () => {
     await prismaService.user.deleteMany();
   });
 
+  afterAll(async () => {
+    await module.close();
+    await app.close();
+  });
+
   describe('GET /users', () => {
     it('should returns users ordered by createdAt', async () => {
       const createdAt = new Date();

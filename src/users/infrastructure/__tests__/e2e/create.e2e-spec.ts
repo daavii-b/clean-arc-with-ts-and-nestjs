@@ -50,6 +50,11 @@ describe('UserController End2End', () => {
     await prismaService.user.deleteMany();
   });
 
+  afterAll(async () => {
+    await module.close();
+    await app.close();
+  });
+
   describe('POST /users', () => {
     it('should create an user', async () => {
       const response = await request(app.getHttpServer())
