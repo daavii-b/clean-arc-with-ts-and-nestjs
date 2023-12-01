@@ -9,6 +9,7 @@ import { SignUpDto } from '@users/infra/dtos/signup.dto';
 import { UsersController } from '@users/infra/users.controller';
 import { UsersModule } from '@users/infra/users.module';
 import { instanceToPlain } from 'class-transformer';
+import { applyGlobalConfig } from 'src/global-config';
 import request from 'supertest';
 
 describe('UsersControllers unit tests', () => {
@@ -31,6 +32,7 @@ describe('UsersControllers unit tests', () => {
     }).compile();
 
     app = module.createNestApplication();
+    applyGlobalConfig(app);
     await app.init();
 
     repository = app.get<NUserRepository.IRepository>('UserRepository');
