@@ -14,7 +14,7 @@ import { instanceToPlain } from 'class-transformer';
 import { applyGlobalConfig } from 'src/global-config';
 import request from 'supertest';
 
-describe('UsersControllers unit tests', () => {
+describe('UserController End2End', () => {
   let app: INestApplication;
   let module: TestingModule;
   let repository: NUserRepository.IRepository;
