@@ -6,12 +6,12 @@ describe('PrismaService', () => {
   let service: PrismaService;
 
   beforeEach(async () => {
+    setUpPrismaTests();
     const module: TestingModule = await Test.createTestingModule({
       providers: [PrismaService],
     }).compile();
 
     service = module.get<PrismaService>(PrismaService);
-    setUpPrismaTests();
   });
 
   it('should be defined', () => {
