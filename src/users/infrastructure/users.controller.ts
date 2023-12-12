@@ -73,6 +73,14 @@ export class UsersController {
     return new UserCollectionPresenter(output);
   }
 
+  @ApiResponse({
+    status: 409,
+    description: 'Email conflict error',
+  })
+  @ApiResponse({
+    status: 422,
+    description: 'Body request with invalid data',
+  })
   @Post()
   async signUp(@Body() signUpDto: SignUpDto) {
     const output = await this.signUpUseCase.execute(signUpDto);
