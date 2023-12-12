@@ -232,6 +232,20 @@ export class UsersController {
     });
     return UsersController.userToResponse(output);
   }
+
+  @ApiBearerAuth()
+  @ApiResponse({
+    status: 404,
+    description: 'User not found',
+  })
+  @ApiResponse({
+    status: 401,
+    description: 'Unauthorized',
+  })
+  @ApiResponse({
+    status: 204,
+    description: 'User deleted successfully',
+  })
   @UseGuards(AuthGuard)
   @HttpCode(204)
   @Delete(':id')
