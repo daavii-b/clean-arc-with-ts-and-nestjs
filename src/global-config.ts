@@ -4,6 +4,7 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
+import { EnvConfigService } from '@shared/infrastructure/env-config/env-config.service';
 import { BadRequestErrorFilter } from '@shared/infrastructure/exception-filters/bad-request-error/bad-request-error.filter';
 import { ConflictErrorFilter } from '@shared/infrastructure/exception-filters/conflict-error/conflict-error.filter';
 import { InvalidPasswordErrorFilter } from '@shared/infrastructure/exception-filters/invalid-password-error/invalid-password-error.filter';
@@ -11,6 +12,8 @@ import { NotFoundErrorFilter } from '@shared/infrastructure/exception-filters/no
 import { WrappedDataInterceptor } from '@shared/infrastructure/interceptors/wrapped-data/wrapped-data.interceptor';
 
 export function applyGlobalConfig(app: INestApplication) {
+  const envConfigService = app.get(EnvConfigService);
+
   app.useGlobalPipes(
     new ValidationPipe({
       errorHttpStatusCode: 422,
@@ -30,4 +33,10 @@ export function applyGlobalConfig(app: INestApplication) {
     new BadRequestErrorFilter(),
     new InvalidPasswordErrorFilter(),
   );
+
+  app.enableCors({
+    credentials: true,
+    origin: envConfigService.getCorsOriginWhiteList(),
+    optionsSuccessStatus: 204,
+  });
 }

@@ -20,4 +20,14 @@ export class EnvConfigService implements IEnvConfig {
   getJWTExpireIn() {
     return Number(this._configService.get<number>('JWT_EXPIRE_IN'));
   }
+
+  getCorsOriginWhiteList() {
+    return this._parseCSV(
+      this._configService.get<string>('CORS_ORIGIN_WHITELIST'),
+    );
+  }
+
+  private _parseCSV(csv: string): string[] {
+    return `${csv}`.split(',').map((value) => value.trim());
+  }
 }

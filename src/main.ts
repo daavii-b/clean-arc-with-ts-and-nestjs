@@ -4,6 +4,7 @@ import {
   NestFastifyApplication,
 } from '@nestjs/platform-fastify';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { EnvConfigService } from '@shared/infrastructure/env-config/env-config.service';
 import { AppModule } from './app.module';
 import { applyGlobalConfig } from './global-config';
 
@@ -12,6 +13,7 @@ async function bootstrap() {
     AppModule,
     new FastifyAdapter(),
   );
+  const envConfigService = app.get(EnvConfigService);
 
   const config = new DocumentBuilder()
     .setTitle('Clean Arch with Node')
@@ -31,6 +33,6 @@ async function bootstrap() {
 
   applyGlobalConfig(app);
 
-  await app.listen(3000, '0.0.0.0');
+  await app.listen(envConfigService.getAppPort(), '0.0.0.0');
 }
 bootstrap();

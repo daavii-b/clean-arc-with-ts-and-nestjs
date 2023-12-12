@@ -3,4 +3,5 @@ export interface IEnvConfig {
   getNodeEnv: () => string;
   getJWTSecret: () => string;
   getJWTExpireIn: () => number;
+  getCorsOriginWhiteList: () => string[];
 }
