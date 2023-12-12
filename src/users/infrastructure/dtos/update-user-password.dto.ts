@@ -1,3 +1,4 @@
+import { ApiProperty } from '@nestjs/swagger';
 import { UpdateUserPasswordUseCase } from '@users/application/usecases/update-user-password.usecase';
 import {
   IsNotEmpty,
@@ -8,6 +9,14 @@ import {
 export class UpdateUserPasswordDto
   implements Omit<UpdateUserPasswordUseCase.IUpdateUserPasswordInput, 'id'>
 {
+  @ApiProperty({
+    description: 'New user password',
+    required: true,
+    maxLength: 255,
+    additionalProperties: {
+      minLength: 8,
+    },
+  })
   @IsNotEmpty()
   @IsString()
   @MaxLength(100)
@@ -20,6 +29,14 @@ export class UpdateUserPasswordDto
   })
   password: string;
 
+  @ApiProperty({
+    description: 'Old user password',
+    required: true,
+    maxLength: 255,
+    additionalProperties: {
+      minLength: 8,
+    },
+  })
   @IsNotEmpty()
   @IsString()
   @MaxLength(100)
