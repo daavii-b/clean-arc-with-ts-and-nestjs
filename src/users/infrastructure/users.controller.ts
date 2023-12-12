@@ -184,6 +184,19 @@ export class UsersController {
     return UsersController.userToResponse(output);
   }
 
+  @ApiBearerAuth()
+  @ApiResponse({
+    status: 404,
+    description: 'User not found',
+  })
+  @ApiResponse({
+    status: 401,
+    description: 'Unauthorized',
+  })
+  @ApiResponse({
+    status: 422,
+    description: 'Invalid query parameters',
+  })
   @UseGuards(AuthGuard)
   @Put(':id')
   async update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
@@ -194,6 +207,19 @@ export class UsersController {
     return UsersController.userToResponse(output);
   }
 
+  @ApiBearerAuth()
+  @ApiResponse({
+    status: 404,
+    description: 'User not found',
+  })
+  @ApiResponse({
+    status: 401,
+    description: 'Unauthorized',
+  })
+  @ApiResponse({
+    status: 422,
+    description: 'Invalid query parameters',
+  })
   @UseGuards(AuthGuard)
   @Patch(':id')
   async updatePassword(
