@@ -33,4 +33,10 @@ describe('EnvConfigService Unit Tests', () => {
   it('should return the env variable JWT_EXPIRE_IN', () => {
     expect(sut.getJWTExpireIn()).toBe(60 * 60 * 24);
   });
+
+  it('should return the env variable CORS_ORIGIN_WHITELIST', () => {
+    expect(sut.getCorsOriginWhiteList()).toStrictEqual([
+      'http://localhost:8000',
+    ]);
+  });
 });
